@@ -103,7 +103,7 @@ celerybeat-schedule
 dmypy.json
 
 # alembic
-alembic/versions/*.pyc
+alembic/versions/*.py
 
 # Database
 *.sqlite3
