@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "your_project_name"
+name = "hedjobs"
 version = "0.1.0"
-description = "Your project description"
-authors = ["Your Name <your.email@example.com>"]
+description = "Job hiring platform"
+authors = ["hthe1010@gmail.com"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -21,6 +21,7 @@ fastapi-mail = "^1.4.1"
 Jinja2 = "^3.1.2"
 PyJWT = "^2.8.0"
 python-multipart = "^0.0.6"
+fastapi-sqlalchemy = "^0.2.1"
 
 [tool.poetry.dev-dependencies]
 

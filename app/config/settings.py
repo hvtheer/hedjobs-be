@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     # App
     APP_NAME:  str = os.environ.get("APP_NAME", "HEDJOBS")
     DEBUG: bool = bool(os.environ.get("DEBUG", False))
+    API_PREFIX: str = os.environ.get("API_PREFIX", "/api/v1")
     
     # FrontEnd Application
     FRONTEND_HOST: str = os.environ.get("FRONTEND_HOST", "http://localhost:3000")
@@ -34,6 +35,10 @@ class Settings(BaseSettings):
 
     # App Secret Key
     SECRET_KEY: str = os.environ.get("SECRET_KEY", "8deadce9449770680910741063cd0a3fe0acb62a8978661f421bbcbb66dc41f1")
+
+    #Minio Secret Key
+    MINIO_ACCESS_KEY: str = os.environ.get("MINIO_ACCESS_KEY", "dTm97eVBNYt3Hv05mbuw")
+    MINIO_SECRET_KEY: str = os.environ.get("MINIO_SECRET_KEY", "BzFWVwDU877YEbDkvRBnopdhOP17lWJeMv2rnYpS")
 
 
 @lru_cache()

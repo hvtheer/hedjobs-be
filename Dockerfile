@@ -16,7 +16,7 @@ RUN useradd -rm -d /code -s /bin/bash -g root -G sudo -u 1001 ubuntu
 
 # Copy the poetry.lock and pyproject.toml file
 COPY ./pyproject.toml /usr/srv/pyproject.toml
-# COPY ./poetry.lock /usr/srv/poetry.lock
+COPY ./poetry.lock /usr/srv/poetry.lock
 
 RUN pip install --upgrade pip
 RUN pip install poetry
