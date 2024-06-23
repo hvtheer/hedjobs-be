@@ -8,10 +8,9 @@ class BaseResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True, arbitrary_types_allowed=True)
 
 class InfoResponse(BaseModel):
-    pass
-
-class SuccessResponse(BaseModel, Generic[T]):
     message: str
+
+class SuccessResponse(InfoResponse, Generic[T]):
     data: Optional[T] = None
 
 class ErrorResponse(BaseModel):

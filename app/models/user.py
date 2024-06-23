@@ -1,5 +1,4 @@
 from sqlalchemy import Boolean, Column, DateTime, Integer, String, func, ForeignKey
-from sqlalchemy.orm import mapped_column, relationship
 
 from app.models import Base
 

@@ -13,7 +13,7 @@ from app.utils.exception import CustomException
 from app.repositories import UserRepository, StudentRepository, UserTokenRepository
 from app.config.constants import ErrorMessage, UserRole, SuccessMessage
 from app.config.settings import get_settings
-from app.responses.base import SuccessResponse
+from app.responses.base import SuccessResponse, InfoResponse
 
 settings = get_settings()
 
@@ -45,7 +45,7 @@ class AuthService:
             self._validate_token(user, data['token'], USER_VERIFY_ACCOUNT)
             self._update_user_status(user, is_active=True, verified_at=datetime.utcnow())
             await EmailService.send_account_activation_confirmation_email(user, background_tasks)
-            return SuccessResponse(message=SuccessMessage.VERIFIED)
+            return InfoResponse(message=SuccessMessage.VERIFIED)
         except CustomException as e:
             self.session.rollback()
             raise e

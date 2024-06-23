@@ -80,4 +80,4 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
     user = await get_token_user(token=token, db=db)
     if user:
         return user
-    # raise CustomException(status_code=status.HTTP_401_UNAUTHORIZED, detail=ErrorMessage.NOT_AUTHORIZED)
+    raise CustomException(status_code=status.HTTP_401_UNAUTHORIZED, detail=ErrorMessage.NOT_AUTHORIZED)

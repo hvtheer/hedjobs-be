@@ -1,22 +1,11 @@
-from typing import Union, Optional
-from datetime import datetime
+
 from pydantic import EmailStr, BaseModel
 
 from .base import BaseResponse
 
-class UserBase(BaseResponse):
+class UserResponse(BaseResponse):
+    user_id: int
     name: str
     email: EmailStr
-    phone_number: Optional[str]
-    is_active: bool
+    phone_number: str
     role: str
-
-class UserResponse(UserBase):
-    user_id: int
-    created_at: datetime
-
-class LoginResponse(BaseResponse):
-    access_token: str
-    refresh_token: str
-    expires_in: int
-    token_type: str = "Bearer"
