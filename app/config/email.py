@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from fastapi_mail import FastMail, MessageSchema, MessageType, ConnectionConfig
 from fastapi.background import BackgroundTasks
+
 from app.config.settings import get_settings
 
 settings = get_settings()

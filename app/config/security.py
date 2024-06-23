@@ -6,6 +6,7 @@ from passlib.context import CryptContext
 import base64
 from sqlalchemy.orm import joinedload, Session
 from datetime import datetime, timedelta
+
 from app.config.database import get_session
 from app.config.settings import get_settings
 from app.models.user import UserToken
@@ -23,26 +24,9 @@ def hash_password(password):
 
 
 def verify_password(plain_password, hashed_password):
+    print("plain_password", plain_password)
+    print("hashed_password", hashed_password)
     return pwd_context.verify(plain_password, hashed_password)
-
-
-def is_password_strong_enough(password: str) -> bool:
-    if len(password) < 8:
-        return False
-
-    if not any(char.isupper() for char in password):
-        return False
-
-    if not any(char.islower() for char in password):
-        return False
-
-    if not any(char.isdigit() for char in password):
-        return False
-
-    if not any(char in SPECIAL_CHARACTERS for char in password):
-        return False
-
-    return True
 
 
 def str_encode(string: str) -> str:
@@ -74,24 +58,29 @@ async def get_token_user(token: str, db):
         user_token_id = str_decode(payload.get('r'))
         user_id = str_decode(payload.get('sub'))
         access_key = payload.get('a')
-        user_token = db.query(UserToken).options(joinedload(UserToken.user)).filter(UserToken.access_key == access_key,
-                                                 UserToken.id == user_token_id,
-                                                 UserToken.user_id == user_id,
-                                                 UserToken.expires_at > datetime.utcnow()
-                                                 ).first()
+        
+        user_token = db.query(UserToken).filter(
+            UserToken.access_key == access_key,
+            UserToken.id == user_token_id,
+            UserToken.user_id == user_id,
+            UserToken.expires_at > datetime.utcnow()
+        ).first()
+        
         if user_token:
-            return user_token.user
+            user = db.query(User).filter(User.user_id == user_token.user_id).first()
+            if user:
+                return user
+        
     return None
 
-
-async def load_user(email: str, db):
-    from app.models.user import User
-    try:
-        user = db.query(User).filter(User.email == email).first()
-    except Exception as user_exec:
-        logging.info(f"User Not Found, Email: {email}")
-        user = None
-    return user
+# async def load_user(email: str, db):
+#     from app.models.user import User
+#     try:
+#         user = db.query(User).filter(User.email == email).first()
+#     except Exception as user_exec:
+#         logging.info(f"User Not Found, Email: {email}")
+#         user = None
+#     return user
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_session)):

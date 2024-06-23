@@ -1,17 +1,23 @@
-from typing import Union
+from typing import Union, Optional
 from datetime import datetime
 from pydantic import EmailStr, BaseModel
-from app.responses.base import BaseResponse
 
+from .base import BaseResponse
 
-class UserResponse(BaseResponse):
-    id: int
+class UserBase(BaseResponse):
     name: str
     email: EmailStr
+    phone_number: Optional[str]
     is_active: bool
-    created_at: Union[str, None, datetime] = None
-    
-    
+    role: str
+
+class UserResponse(UserBase):
+    user_id: int
+    # verified_at: Optional[datetime]
+    # last_login_at: Optional[datetime]
+    # read_last_notifications_at: datetime
+    created_at: datetime
+    # updated_at: Optional[datetime]
 
 class LoginResponse(BaseModel):
     access_token: str
