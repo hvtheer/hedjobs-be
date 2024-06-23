@@ -17,6 +17,5 @@ class UserResponse(UserBase):
 
 class LoginResponse(BaseResponse):
     access_token: str
-    refresh_token: str
     expires_in: int
     token_type: str = "Bearer"

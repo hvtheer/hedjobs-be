@@ -12,4 +12,4 @@ class Student(Base):
     is_deleted = Column(Boolean, default=False, nullable=False)
 
     def get_context_string(self):
-        return f"{self.email}".strip()
+        return f"{self.student_id}-{self.email}"

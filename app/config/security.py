@@ -1,22 +1,24 @@
 import logging
-from fastapi import Depends, HTTPException
+from fastapi import Depends, status
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 from passlib.context import CryptContext
 import base64
-from sqlalchemy.orm import joinedload, Session
+from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 
 from app.config.database import get_session
 from app.config.settings import get_settings
-from app.models.user import UserToken
+from app.models import UserToken, User 
+from app.utils.exception import CustomException
+from app.config.constants import ErrorMessage
 
 SPECIAL_CHARACTERS = ['@', '#', '$', '%', '=', ':', '?', '.', '/', '|', '~', '>']
 
 settings = get_settings()
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
 
 def hash_password(password):
@@ -24,8 +26,6 @@ def hash_password(password):
 
 
 def verify_password(plain_password, hashed_password):
-    print("plain_password", plain_password)
-    print("hashed_password", hashed_password)
     return pwd_context.verify(plain_password, hashed_password)
 
 
@@ -58,10 +58,13 @@ async def get_token_user(token: str, db):
         user_token_id = str_decode(payload.get('r'))
         user_id = str_decode(payload.get('sub'))
         access_key = payload.get('a')
+        print("user_token", user_token_id)
+        print("user_id", user_id)
+        print("access_key", access_key)
         
         user_token = db.query(UserToken).filter(
             UserToken.access_key == access_key,
-            UserToken.id == user_token_id,
+            UserToken.user_token_id == user_token_id,
             UserToken.user_id == user_id,
             UserToken.expires_at > datetime.utcnow()
         ).first()
@@ -70,21 +73,11 @@ async def get_token_user(token: str, db):
             user = db.query(User).filter(User.user_id == user_token.user_id).first()
             if user:
                 return user
-        
+    
     return None
-
-# async def load_user(email: str, db):
-#     from app.models.user import User
-#     try:
-#         user = db.query(User).filter(User.email == email).first()
-#     except Exception as user_exec:
-#         logging.info(f"User Not Found, Email: {email}")
-#         user = None
-#     return user
-
 
 async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_session)):
     user = await get_token_user(token=token, db=db)
     if user:
         return user
-    raise HTTPException(status_code=401, detail="Not authorised.")
+    # raise CustomException(status_code=status.HTTP_401_UNAUTHORIZED, detail=ErrorMessage.NOT_AUTHORIZED)

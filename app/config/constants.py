@@ -9,6 +9,7 @@ class ErrorMessage:
     NOT_AUTHORIZED = "not_authorized"
     INTERNAL_SERVER_ERROR = "internal_server_error"
     UNEXPECTED_ERROR = "unexpected_error"
+    FORBIDDEN = "forbidden"
 
     # Sign up error messages
     ALREADY_EXISTS = "already_exists"
@@ -25,8 +26,8 @@ class SuccessMessage:
     DELETED = "deleted"
 
     # Login success messages
-    LOGGED_IN = "logged_in"
-    LOGGED_OUT = "logged_out"
+    LOGIN = "logged_in"
+    LOGOUT = "logged_out"
 
     # User verification success messages
     VERIFIED = "verified"

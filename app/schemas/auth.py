@@ -10,24 +10,8 @@ class UserBase(BaseModel):
 
 class RegisterUserRequest(UserBase):
     password: str
-
-# class RegisterUserRequest(BaseModel):
-#     name: str
-#     email: EmailStr
-#     password: str
-#     role: str
-    
     
 class VerifyUserRequest(BaseModel):
     token: str
     email: EmailStr
-    
-class EmailRequest(BaseModel):
-    email: EmailStr
-    
-class ResetRequest(BaseModel):
-    token: str
-    email: EmailStr
-    password: str
-    
     

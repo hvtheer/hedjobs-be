@@ -2,7 +2,7 @@ import logging
 from sqlalchemy import Index, inspect, Column, Boolean
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
-from typing import List, Optional, Type, TypeVar, Generic
+from typing import List, Optional, Type, TypeVar, Generic, Dict, Any
 from fastapi import status
 
 from app.utils.exception import CustomException
@@ -20,13 +20,15 @@ class BaseRepository(Generic[T]):
         self.column_delete = 'is_deleted'
 
     def create(self, obj_in: dict) -> T:
+        obj = self.model(**obj_in)
         try:
-            self.session.add(obj_in)
+            self.session.add(obj)
             self.session.commit()
-            self.session.refresh(obj_in)
-            return obj_in
+            self.session.refresh(obj)
+            return obj
         except SQLAlchemyError as e:
             logger.error(f"An error occurred in create for model {self.model.__name__}: {e}")
+            self.session.rollback()
             raise e
 
     def update_by_id(self, id: int, obj_in: dict) -> T:
@@ -36,6 +38,7 @@ class BaseRepository(Generic[T]):
             return self._filter_not_deleted().filter(self.column_id == id).first()
         except SQLAlchemyError as e:
             logger.error(f"An error occurred in update_by_id for model {self.model.__name__} with id {id}: {e}")
+            self.session.rollback()
             raise e
     
     def update_by_condition(self, condition: dict, obj_in: dict) -> T:
@@ -45,6 +48,7 @@ class BaseRepository(Generic[T]):
             return self._filter_not_deleted().filter_by(**condition).first()
         except SQLAlchemyError as e:
             logger.error(f"An error occurred in update_by_condition for model {self.model.__name__} with condition {condition}: {e}")
+            self.session.rollback()
             raise e
 
     def _filter_not_deleted(self):
@@ -59,16 +63,19 @@ class BaseRepository(Generic[T]):
             logger.error(f"An error occurred in get_by_id for model {self.model.__name__} with id {id}: {e}")
             raise e
 
-    def get_all(self) -> List[T]:
+    def get_all(self, pagination: Dict[str, Any] = None, condition: Dict[Any, Any] = None, order_by: Column = None) -> List[T]:
         try:
-            return self._filter_not_deleted().all()
+            query = self._filter_not_deleted()
+            if condition:
+                query = query.filter_by(**condition)
+            if pagination:
+                if 'page' in pagination and 'size' in pagination:
+                    page = pagination['page']
+                    size = pagination['size']
+                    query = query.offset((page - 1) * size).limit(size)
+            if order_by:
+                query = query.order_by(order_by)
+            return query.all()
         except SQLAlchemyError as e:
             logger.error(f"An error occurred in get_all for model {self.model.__name__}: {e}")
-            raise e
-
-    def get_all_by_column(self, column: Column, value: str) -> List[T]:
-        try:
-            return self._filter_not_deleted().filter(column == value).all()
-        except SQLAlchemyError as e:
-            logger.error(f"An error occurred in get_all_by_column for model {self.model.__name__} with column {column} and value {value}: {e}")
             raise e

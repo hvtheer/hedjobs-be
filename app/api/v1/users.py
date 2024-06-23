@@ -3,9 +3,11 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from app.config.database import get_session
-from app.responses.user import UserResponse
-from app.services import user
+from app.responses.auth import UserResponse
+from app.responses.base import SuccessResponse
+from app.services import UserService
 from app.config.security import get_current_user, oauth2_scheme
+from app.config.constants import SuccessMessage
 
 router = APIRouter(
     prefix="/users",
@@ -14,9 +16,9 @@ router = APIRouter(
     dependencies=[Depends(oauth2_scheme), Depends(get_current_user)]
 )
 
-@router.get("/me", status_code=status.HTTP_200_OK, response_model=UserResponse)
+@router.get("/me", status_code=status.HTTP_200_OK, response_model=SuccessResponse[UserResponse])
 async def fetch_user(user = Depends(get_current_user)):
-    return user
+    return SuccessResponse(SuccessMessage.SUCCESS, user)
 
 
 @router.get("/{user_id}", status_code=status.HTTP_200_OK, response_model=UserResponse)
