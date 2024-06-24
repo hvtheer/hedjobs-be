@@ -1,10 +1,14 @@
 from sqlalchemy import Column, DateTime, Boolean, func
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import as_declarative, declared_attr
 
-Base = declarative_base()
-
-class BaseModel(Base):
+@as_declarative()
+class Base:
     __abstract__ = True
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
-    is_deleted = Column(Boolean, default=False)
+
+    @declared_attr
+    def created_at(cls):
+        return Column(DateTime, default=func.now(), nullable=False)
+
+    @declared_attr
+    def updated_at(cls):
+        return Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)

@@ -1,25 +1,27 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from app.core.config import DATABASE_URL
-from app.core.database import check_database_connection
+from fastapi_sqlalchemy import DBSessionMiddleware
+from starlette.middleware.cors import CORSMiddleware
+
+from app.api import router
+from app.config.settings import get_settings
+from app.utils.exception import CustomException, custom_exception_handler
+
+settings = get_settings()
+
+def create_application():
+    application = FastAPI()
+    application.include_router(router)
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    application.add_middleware(DBSessionMiddleware, db_url=settings.DATABASE_URI)
+    application.add_exception_handler(CustomException, custom_exception_handler)
+
+    return application
 
 
-app = FastAPI()
-
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-@app.get("/")
-def root_access():
-    check_database_connection()
-    return {"message": DATABASE_URL}
+app = create_application()
