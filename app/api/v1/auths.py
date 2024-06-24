@@ -15,21 +15,41 @@ router = APIRouter(
     tags=["Auth"],
 )
 
-@router.post("/register", status_code=status.HTTP_201_CREATED, response_model=SuccessResponse[UserResponse])
-async def register_user(data: RegisterUserRequest, background_tasks: BackgroundTasks, session: Session = Depends(get_session)):
+
+@router.post(
+    "/register",
+    status_code=status.HTTP_201_CREATED,
+    response_model=SuccessResponse[UserResponse],
+)
+async def register_user(
+    data: RegisterUserRequest,
+    background_tasks: BackgroundTasks,
+    session: Session = Depends(get_session),
+):
     auth_service = AuthService(session)
     return await auth_service.register(data.dict(), background_tasks)
 
+
 @router.post("/verify", status_code=status.HTTP_200_OK)
-async def verify_user_account(data: VerifyUserRequest, background_tasks: BackgroundTasks, session: Session = Depends(get_session)):
+async def verify_user_account(
+    data: VerifyUserRequest,
+    background_tasks: BackgroundTasks,
+    session: Session = Depends(get_session),
+):
     auth_service = AuthService(session)
     return await auth_service.activate_user_account(data.dict(), background_tasks)
 
+
 @router.post("/login", status_code=status.HTTP_200_OK)
-async def user_login(data: OAuth2PasswordRequestForm = Depends(), session: Session = Depends(get_session)):
+async def user_login(
+    data: OAuth2PasswordRequestForm = Depends(), session: Session = Depends(get_session)
+):
     auth_service = AuthService(session)
     return await auth_service.get_login_token(data)
 
-@router.get("/me", status_code=status.HTTP_200_OK, response_model=SuccessResponse[UserResponse])
-async def get_me(user = Depends(get_current_user)):
+
+@router.get(
+    "/me", status_code=status.HTTP_200_OK, response_model=SuccessResponse[UserResponse]
+)
+async def get_me(user=Depends(get_current_user)):
     return SuccessResponse(message=SuccessMessage.SUCCESS, data=user)

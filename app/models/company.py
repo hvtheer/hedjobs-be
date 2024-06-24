@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, SmallInteger, Date, Text
 from app.models import Base
 
+
 class Company(Base):
-    __tablename__ = 'companies'
+    __tablename__ = "companies"
 
     company_id = Column(Integer, primary_key=True, autoincrement=True)
     staff_id = Column(Integer)

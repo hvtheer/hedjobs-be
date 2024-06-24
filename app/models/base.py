@@ -1,6 +1,7 @@
 from sqlalchemy import Column, DateTime, Boolean, func
 from sqlalchemy.orm import as_declarative, declared_attr
 
+
 @as_declarative()
 class Base:
     __abstract__ = True

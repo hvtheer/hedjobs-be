@@ -2,15 +2,19 @@ from pydantic import BaseModel
 from typing import List, Optional
 from datetime import date
 
+
 class JobSkillRequest(BaseModel):
     skill_id: int
     skill_yoe: Optional[int] = None
 
+
 class JobCertificateRequest(BaseModel):
     certificate_id: int
 
+
 class JobEducationRequest(BaseModel):
     education_id: int
+
 
 class JobRequest(BaseModel):
     title: str
@@ -33,6 +37,7 @@ class JobRequest(BaseModel):
     position_id: Optional[int] = None
     interview_process: Optional[str] = None
     quantity: Optional[int] = None
+
 
 class JobDetailsRequest(BaseModel):
     job: Job

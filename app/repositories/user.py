@@ -9,12 +9,12 @@ from typing import List, Optional, Type, TypeVar, Generic, Dict, Any
 from sqlalchemy.sql.elements import UnaryExpression
 
 
-
 from app.models.user import User
 from .base import BaseRepository
 from app.utils.exception import CustomException
 from app.config.constants import ErrorMessage
 from app.config.security import hash_password
+
 
 class UserRepository(BaseRepository[User]):
     def __init__(self, session: Session):
@@ -25,14 +25,14 @@ class UserRepository(BaseRepository[User]):
         )
 
     def create(self, new_user):
-        new_user['password'] = hash_password(new_user['password'])
+        new_user["password"] = hash_password(new_user["password"])
         return super().create(new_user)
-    
+
     def get_user_by_email(self, email):
         condition = User.email == email
         order_by = asc(User.email)
 
-        users = self.get_all(condition=condition,order_by=order_by)
+        users = self.get_all(condition=condition, order_by=order_by)
 
         # users = self.get_all(condition=condition)
 

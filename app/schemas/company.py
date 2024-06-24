@@ -2,6 +2,7 @@ from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import date
 
+
 class CompanyRequest(BaseModel):
     name: str
     website: Optional[str] = None

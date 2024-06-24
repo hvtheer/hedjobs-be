@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.models import JobEducation
 from .base import BaseRepository
 
+
 class JobEducationRepository(BaseRepository[JobEducation]):
     def __init__(self, session: Session):
         super().__init__(

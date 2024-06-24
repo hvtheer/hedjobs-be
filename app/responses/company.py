@@ -4,6 +4,7 @@ from typing import Optional
 
 from .base import BaseResponse
 
+
 class CompanyResponse(BaseResponse):
     company_id: int
     name: str

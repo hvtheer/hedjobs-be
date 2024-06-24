@@ -16,12 +16,19 @@ router = APIRouter(
     # dependencies=[Depends(oauth2_scheme), Depends(get_current_user)]
 )
 
-@router.get("/me", status_code=status.HTTP_200_OK, response_model=SuccessResponse[UserResponse])
-async def get_me(user = Depends(get_current_user)):
+
+@router.get(
+    "/me", status_code=status.HTTP_200_OK, response_model=SuccessResponse[UserResponse]
+)
+async def get_me(user=Depends(get_current_user)):
     return SuccessResponse(message=SuccessMessage.SUCCESS, data=user)
 
 
-@router.get("/", status_code=status.HTTP_200_OK, response_model=SuccessResponse[List[UserResponse]])
+@router.get(
+    "/",
+    status_code=status.HTTP_200_OK,
+    response_model=SuccessResponse[List[UserResponse]],
+)
 async def get_users(session: Session = Depends(get_session)):
     user_service = UserService(session)
     users = await user_service.get_all_users()

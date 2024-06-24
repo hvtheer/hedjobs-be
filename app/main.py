@@ -8,6 +8,7 @@ from app.utils.exception import CustomException, custom_exception_handler
 
 settings = get_settings()
 
+
 def create_application():
     application = FastAPI()
     application.include_router(router)
