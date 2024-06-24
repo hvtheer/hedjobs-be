@@ -7,8 +7,8 @@ class Base:
 
     @declared_attr
     def created_at(cls):
-        return Column(DateTime, default=func.now(), nullable=False)
+        return Column(DateTime, default=func.now())
 
     @declared_attr
     def updated_at(cls):
-        return Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
+        return Column(DateTime, default=func.now(), onupdate=func.now())
