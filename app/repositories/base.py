@@ -31,26 +31,6 @@ class BaseRepository(Generic[T]):
             self.session.rollback()
             raise e
 
-    def update_by_id(self, id: int, obj_in: dict) -> T:
-        try:
-            self._filter_not_deleted().filter(self.column_id == id).update(obj_in)
-            self.session.commit()
-            return self._filter_not_deleted().filter(self.column_id == id).first()
-        except SQLAlchemyError as e:
-            logger.error(f"An error occurred in update_by_id for model {self.model.__name__} with id {id}: {e}")
-            self.session.rollback()
-            raise e
-    
-    def update_by_condition(self, condition: dict, obj_in: dict) -> T:
-        try:
-            self._filter_not_deleted().filter_by(**condition).update(obj_in)
-            self.session.commit()
-            return self._filter_not_deleted().filter_by(**condition).first()
-        except SQLAlchemyError as e:
-            logger.error(f"An error occurred in update_by_condition for model {self.model.__name__} with condition {condition}: {e}")
-            self.session.rollback()
-            raise e
-
     def _filter_not_deleted(self):
         if hasattr(self.model, self.column_delete):
             return self.session.query(self.model).filter(getattr(self.model, self.column_delete) == False)
@@ -78,4 +58,44 @@ class BaseRepository(Generic[T]):
             return query.all()
         except SQLAlchemyError as e:
             logger.error(f"An error occurred in get_all for model {self.model.__name__}: {e}")
+            raise e
+            
+    def update_by_id(self, id: int, obj_in: dict) -> T:
+        try:
+            self._filter_not_deleted().filter(self.column_id == id).update(obj_in)
+            self.session.commit()
+            return self._filter_not_deleted().filter(self.column_id == id).first()
+        except SQLAlchemyError as e:
+            logger.error(f"An error occurred in update_by_id for model {self.model.__name__} with id {id}: {e}")
+            self.session.rollback()
+            raise e
+    
+    def update_by_condition(self, condition: dict, obj_in: dict) -> T:
+        try:
+            self._filter_not_deleted().filter_by(**condition).update(obj_in)
+            self.session.commit()
+            return self._filter_not_deleted().filter_by(**condition).first()
+        except SQLAlchemyError as e:
+            logger.error(f"An error occurred in update_by_condition for model {self.model.__name__} with condition {condition}: {e}")
+            self.session.rollback()
+            raise e
+
+    def delete_by_id(self, id: int) -> T:
+        try:
+            if hasattr(self.model, self.column_delete):
+                self.update_by_id(id, {self.column_delete: True})
+            else:
+                self.session.delete(self.get_by_id(id))
+            self.session.commit()
+            return self.get_by_id(id)
+        except SQLAlchemyError as e:        
+            logger.error(f"An error occurred in delete_by_id for model {self.model.__name__} with id {id}: {e}")
+            self.session.rollback()
+            raise e
+
+    def count(self) -> int:
+        try:
+            return self.get_all().count()
+        except SQLAlchemyError as e:
+            logger.error(f"An error occurred in count for model {self.model.__name__}: {e}")
             raise e

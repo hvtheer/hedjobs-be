@@ -58,9 +58,6 @@ async def get_token_user(token: str, db):
         user_token_id = str_decode(payload.get('r'))
         user_id = str_decode(payload.get('sub'))
         access_key = payload.get('a')
-        print("user_token", user_token_id)
-        print("user_id", user_id)
-        print("access_key", access_key)
         
         user_token = db.query(UserToken).filter(
             UserToken.access_key == access_key,
@@ -81,3 +78,13 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
     if user:
         return user
     raise CustomException(status_code=status.HTTP_401_UNAUTHORIZED, detail=ErrorMessage.NOT_AUTHORIZED)
+
+def require_role(*required_roles: str):
+    def role_checker(current_user = Depends(get_current_user)):
+        if current_user.role not in required_roles:
+            raise CustomException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=ErrorMessage.FORBIDDEN
+            )
+        return current_user
+    return role_checker

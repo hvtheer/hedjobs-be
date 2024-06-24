@@ -7,7 +7,7 @@ from app.config.database import Base
 from alembic import context
 
 # Import All Models
-from app.models.user import *
+from app.models import *
 
 from app.config.settings import get_settings
 settings = get_settings()

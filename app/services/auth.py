@@ -6,6 +6,8 @@ from typing import Dict, Any
 
 from app.config.security import generate_token, get_token_payload, str_encode, verify_password, hash_password
 from app.models import User, Student, UserToken
+from app.services.base import BaseService
+from app.repositories.recruiter import RecruiterRepository
 from .email import EmailService
 from app.utils.string import unique_string
 from app.utils.email_context import USER_VERIFY_ACCOUNT
@@ -17,18 +19,18 @@ from app.responses.base import SuccessResponse, InfoResponse
 
 settings = get_settings()
 
-class AuthService:
+class AuthService(BaseService):
 
     def __init__(self, session: Session):
-        self.session = session
-        self.user_repository = UserRepository(session)
-        self.student_repository = StudentRepository(session)
-        self.user_token_repository = UserTokenRepository(session)
+        super().__init__(session)
 
     async def register(self, new_user, background):
         try:
-            user = self.user_repository.create_user(new_user)
-            self._create_student_if_needed(user)
+            if self.user_repository.get_user_by_email(new_user['email']):
+                raise CustomException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=ErrorMessage.ALREADY_EXISTS)
+            user = self.user_repository.create(new_user)
+            self._create_student(user)
+            self._create_recruiter(user)
             await EmailService.send_account_verification_email(user, background_tasks=background)
             return SuccessResponse(message=SuccessMessage.CREATED, data=user)
         except CustomException as e:
@@ -87,7 +89,8 @@ class AuthService:
             "sub": str_encode(str(user.user_id)),
             'a': access_key,
             'r': str_encode(str(user_token.user_token_id)),
-            'n': str_encode(f"{user.name}")
+            'n': str_encode(f"{user.name}"),
+            'role': str_encode(f"{user.role}"),
         }
 
         at_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -101,22 +104,6 @@ class AuthService:
             "refresh_token": refresh_token,
             "expires_in": at_expires.seconds
         }
-
-    def _create_student_if_needed(self, user):
-        if user.role == UserRole.STUDENT:
-            new_student = {
-                'student_id': user.user_id,
-                'name': user.name,
-                'email': user.email,
-                'phone_number': user.phone_number
-            }
-            self.student_repository.create(new_student)
-
-    def _get_user_by_email(self, email):
-        users = self.user_repository.get_all(condition={'email': email})
-        if not users:
-            raise CustomException(status_code=status.HTTP_400_BAD_REQUEST, detail="This link is not valid.")
-        return users[0]
 
     def _validate_token(self, user, token, context):
         user_token = user.get_context_string(context=context)

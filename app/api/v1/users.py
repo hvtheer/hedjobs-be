@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends, status
-from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from app.config.database import get_session
-from app.responses.auth import UserResponse
+from app.responses.user import UserResponse
 from app.responses.base import SuccessResponse
 from app.services import UserService
 from app.config.security import get_current_user, oauth2_scheme
 from app.config.constants import SuccessMessage
+from typing import List
 
 router = APIRouter(
     prefix="/users",
@@ -17,10 +17,12 @@ router = APIRouter(
 )
 
 @router.get("/me", status_code=status.HTTP_200_OK, response_model=SuccessResponse[UserResponse])
-async def fetch_user(user = Depends(get_current_user)):
-    return SuccessResponse(SuccessMessage.SUCCESS, user)
+async def get_me(user = Depends(get_current_user)):
+    return SuccessResponse(message=SuccessMessage.SUCCESS, data=user)
 
 
-@router.get("/{user_id}", status_code=status.HTTP_200_OK, response_model=UserResponse)
-async def get_user_info(id, session: Session = Depends(get_session)):
-    return await user.fetch_user_detail(id, session)
+@router.get("/", status_code=status.HTTP_200_OK, response_model=SuccessResponse[List[UserResponse]])
+async def get_users(session: Session = Depends(get_session)):
+    user_service = UserService(session)
+    users = await user_service.get_all_users()
+    return SuccessResponse(message=SuccessMessage.SUCCESS, data=users)

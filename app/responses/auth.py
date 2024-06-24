@@ -1,6 +1,6 @@
 from typing import Union, Optional
 from datetime import datetime
-from pydantic import EmailStr, BaseModel
+from pydantic import EmailStr
 
 from .base import BaseResponse
 

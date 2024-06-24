@@ -15,14 +15,12 @@ class UserRepository(BaseRepository[User]):
             column_id=User.user_id,
         )
 
-    def create_user(self, new_user):
-        if self._email_exists(new_user['email']):
-            raise CustomException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=ErrorMessage.ALREADY_EXISTS)
-        new_user['password'] = self._hash_password(new_user['password'])
-        return self.create(new_user)
-
-    def _email_exists(self, email):
-        return bool(self.get_all(condition={'email': email}))
-
-    def _hash_password(self, password):
-        return hash_password(password)
+    def create(self, new_user):
+        new_user['password'] = hash_password(new_user['password'])
+        return super().create(new_user)
+    
+    def get_user_by_email(self, email):
+        users = self.get_all(condition={'email': email})
+        if not users:
+            return None
+        return users[0]
