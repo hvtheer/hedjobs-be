@@ -13,8 +13,9 @@ class EmailService:
     async def send_account_verification_email(user: User, background_tasks: BackgroundTasks):
         from app.config.security import hash_password
         string_context = user.get_context_string(context=USER_VERIFY_ACCOUNT)
-        token = hash_password(string_context)
-        activate_url = f"{settings.FRONTEND_HOST}/auth/verify?token={token}&email={user.email}"
+        token = hash_password(string_context),
+        activate_url = token
+        # activate_url = f"{settings.FRONTEND_HOST}/auth/verify?token={token}&email={user.email}"
         data = {
             'app_name': settings.APP_NAME,
             "name": user.name,

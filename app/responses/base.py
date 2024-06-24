@@ -1,6 +1,6 @@
 
 from pydantic import BaseModel, ConfigDict
-from typing import TypeVar, Generic, Optional
+from typing import TypeVar, Generic, Optional, List
 
 T = TypeVar('T')
 
@@ -15,3 +15,7 @@ class SuccessResponse(InfoResponse, Generic[T]):
 
 class ErrorResponse(BaseModel):
     message: str
+
+class Page(BaseModel, Generic[T]):
+    items: List[T]
+    total: int

@@ -1,5 +1,14 @@
 from sqlalchemy.orm import Session
 from fastapi import status
+from sqlalchemy import asc, desc
+import logging
+from sqlalchemy import Index, inspect, Column, Boolean, asc, desc
+from sqlalchemy.orm import Session
+from sqlalchemy.exc import SQLAlchemyError
+from typing import List, Optional, Type, TypeVar, Generic, Dict, Any
+from sqlalchemy.sql.elements import UnaryExpression
+
+
 
 from app.models.user import User
 from .base import BaseRepository
@@ -20,7 +29,16 @@ class UserRepository(BaseRepository[User]):
         return super().create(new_user)
     
     def get_user_by_email(self, email):
-        users = self.get_all(condition={'email': email})
+        condition = User.email == email
+        order_by = asc(User.email)
+
+        users = self.get_all(condition=condition,order_by=order_by)
+
+        # users = self.get_all(condition=condition)
+
+        for user in users:
+            print(user.email)
         if not users:
             return None
+        # print(users[0].email)
         return users[0]

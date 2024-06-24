@@ -1,5 +1,5 @@
 import logging
-from sqlalchemy import Index, inspect, Column, Boolean
+from sqlalchemy import Index, inspect, Column, Boolean, asc, desc
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from typing import List, Optional, Type, TypeVar, Generic, Dict, Any
@@ -43,18 +43,18 @@ class BaseRepository(Generic[T]):
             logger.error(f"An error occurred in get_by_id for model {self.model.__name__} with id {id}: {e}")
             raise e
 
-    def get_all(self, pagination: Dict[str, Any] = None, condition: Dict[Any, Any] = None, order_by: Column = None) -> List[T]:
+    def get_all(self, pagination: Dict[str, Any] = None, condition = None, order_by = None):
         try:
             query = self._filter_not_deleted()
-            if condition:
-                query = query.filter_by(**condition)
+            if condition is not None:
+                query = query.filter(condition)
+            if order_by is not None:
+                query = query.order_by(order_by)
             if pagination:
                 if 'page' in pagination and 'size' in pagination:
                     page = pagination['page']
                     size = pagination['size']
                     query = query.offset((page - 1) * size).limit(size)
-            if order_by:
-                query = query.order_by(order_by)
             return query.all()
         except SQLAlchemyError as e:
             logger.error(f"An error occurred in get_all for model {self.model.__name__}: {e}")
@@ -93,9 +93,12 @@ class BaseRepository(Generic[T]):
             self.session.rollback()
             raise e
 
-    def count(self) -> int:
+    def count(self, condition = None) -> int:
         try:
-            return self.get_all().count()
+            query = self._filter_not_deleted()
+            if condition:
+                query = query.filter(condition)
+            return query.count()
         except SQLAlchemyError as e:
             logger.error(f"An error occurred in count for model {self.model.__name__}: {e}")
             raise e
