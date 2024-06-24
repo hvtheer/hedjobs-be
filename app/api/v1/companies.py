@@ -15,7 +15,6 @@ router = APIRouter(
     prefix="/companies",
     tags=["Companies"],
     responses={404: {"description": "Not found"}},
-    # dependencies=[Depends(oauth2_scheme), Depends(get_current_user)]
 )
 
 

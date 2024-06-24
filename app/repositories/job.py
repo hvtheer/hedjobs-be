@@ -8,5 +8,5 @@ class JobRepository(BaseRepository[Job]):
         super().__init__(
             session=session,
             model=Job,
-            column_id=Job.company_id,
+            column_id=Job.job_id,
         )

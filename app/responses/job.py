@@ -1,18 +1,23 @@
-from pydantic import BaseModel
 from typing import List, Optional
 from datetime import date
 
-class JobSkillRequest(BaseModel):
+from .base import BaseResponse
+
+class JobSkillResponse(BaseResponse):
+    job_skill_id: int
     skill_id: int
     skill_yoe: Optional[int] = None
 
-class JobCertificateRequest(BaseModel):
+class JobCertificateResponse(BaseResponse):
+    job_certificate_id: int
     certificate_id: int
 
-class JobEducationRequest(BaseModel):
+class JobEducationResponse(BaseResponse):
+    job_education_id: int
     education_id: int
 
-class JobRequest(BaseModel):
+class JobResponse(BaseResponse):
+    job_id: int
     title: str
     company_id: int
     employment_type: str
@@ -34,7 +39,7 @@ class JobRequest(BaseModel):
     interview_process: Optional[str] = None
     quantity: Optional[int] = None
 
-class JobDetailsRequest(BaseModel):
+class JobDetailsResponse(BaseResponse):
     job: Job
     skills: Optional[List[JobSkill]] = None
     certificates: Optional[List[JobCertificate]] = None

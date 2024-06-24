@@ -28,6 +28,7 @@ class BaseService:
         self.recruiter_repository = RecruiterRepository(session)
         self.company_repository = CompanyRepository(session)
         self.email_service = EmailService()
+        self.
 
     def _create_student(self, user):
         if user.role == UserRole.STUDENT:

@@ -4,3 +4,7 @@ from .user_token import UserTokenRepository
 from .student import StudentRepository
 from .recruiter import RecruiterRepository
 from .company import CompanyRepository
+from .job import JobRepository
+from .job_skill import JobSkillRepository
+from .job_education import JobEducationRepository
+from .job_certificate import JobCertificateRepository

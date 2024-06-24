@@ -1,4 +1,7 @@
-from sqlalchemy import Column, Integer, SmallInteger, String, Date, Text, Numeric
+from sqlalchemy import Column, Integer, SmallInteger, String, Date, Text, Numeric, Boolean
+from sqlalchemy.orm import validates
+from sqlalchemy.event import listens_for
+from datetime import date
 from app.models import Base
 
 class Job(Base):
@@ -20,8 +23,19 @@ class Job(Base):
     benefits = Column(Text)
     posted_date = Column(Date)
     closed_date = Column(Date)
-    status = Column(String(2), nullable=False, default='01')
+    status = Column(SmallInteger, nullable=False, default=1)
     career_id = Column(Integer)
     position_id = Column(SmallInteger)
     interview_process = Column(Text)
     quantity = Column(SmallInteger)
+
+    @validates('closed_date')
+    def validate_closed_date(self, key, closed_date):
+        if closed_date and closed_date <= date.today():
+            self.status = 0
+        return closed_date
+
+@listens_for(Job, 'before_update')
+def receive_before_update(mapper, connection, target):
+    if target.closed_date and target.closed_date <= date.today():
+        target.status = 0
