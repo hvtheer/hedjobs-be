@@ -20,20 +20,24 @@ class Job(Base):
     job_id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(255), nullable=False, default="")
     company_id = Column(Integer, nullable=False, default=0)
-    employment_type = Column(String(15), nullable=False, default="")
-    salary_type = Column(SmallInteger)
+    employment_type = Column(
+        SmallInteger
+    )  # 1: Full-time, 2: Part-time, 3: Contract, 4: Temporary, 5: Internship, 6: Freelance
+    salary_type = Column(SmallInteger)  # 1: Min, 2: Max, 3: Min-Max, 4: Deal
     min_salary = Column(Numeric(precision=13, scale=2))
     max_salary = Column(Numeric(precision=13, scale=2))
-    currency_cd = Column(String(3))
+    currency_cd = Column(String(3))  # USD, VND, JPY
     city_id = Column(SmallInteger)
     location = Column(String(255))
-    working_arrangement = Column(String(15), nullable=False, default="")
+    working_arrangement = Column(SmallInteger)  # 1: Remote, 2: On-site, 3: Hybrid
     description = Column(Text)
     requirements = Column(Text)
     benefits = Column(Text)
     posted_date = Column(Date)
     closed_date = Column(Date)
-    status = Column(SmallInteger, nullable=False, default=1)
+    status = Column(
+        SmallInteger, nullable=False, default=1
+    )  # 0: Closed, 1: Open, 2: Featured
     career_id = Column(Integer)
     position_id = Column(SmallInteger)
     interview_process = Column(Text)

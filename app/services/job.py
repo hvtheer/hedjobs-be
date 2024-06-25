@@ -1,3 +1,4 @@
+# from elasticsearch import Elasticsearch
 from fastapi import status
 from sqlalchemy.orm import Session
 
@@ -11,6 +12,7 @@ from app.utils.exception import CustomException
 class JobService(BaseService):
     def __init__(self, session: Session):
         super().__init__(session)
+        # self.es = Elasticsearch()
 
     async def create_job_details(
         self,
@@ -29,6 +31,10 @@ class JobService(BaseService):
             self._create_job_certificates(job.job_id, certificates_data)
         if educations_data:
             self._create_job_educations(job.job_id, educations_data)
+
+        # # Index the job in Elasticsearch
+        # self._index_job(job)
+
         return SuccessResponse(message=SuccessMessage.CREATED, data=job)
 
     def _get_company_by_staff_id(self, staff_id):
@@ -53,3 +59,41 @@ class JobService(BaseService):
         for education in educations_data:
             education["job_id"] = job_id
             self.job_education_repository.create(education)
+
+    # def _index_job(self, job):
+    #     body = {
+    #         "title": job.title,
+    #         "description": job.description,
+    #         "location": job.location,
+    #         "company": job.company.name,
+    #         "skills": [skill.name for skill in job.skills],
+    #         "certificates": [certificate.name for certificate in job.certificates],
+    #         "educations": [education.degree for education in job.educations],
+    #     }
+    #     self.es.index(index="jobs", id=job.job_id, body=body)
+
+    # async def search_jobs(self, query: str, page: int = 1, size: int = 10):
+    #     body = {
+    #         "query": {
+    #             "multi_match": {
+    #                 "query": query,
+    #                 "fields": [
+    #                     "title",
+    #                     "description",
+    #                     "location",
+    #                     "company",
+    #                     "skills",
+    #                     "certificates",
+    #                     "educations",
+    #                 ],
+    #             }
+    #         },
+    #         "from": (page - 1) * size,
+    #         "size": size,
+    #     }
+    #     response = self.es.search(index="jobs", body=body)
+    #     hits = response["hits"]["hits"]
+    #     total = response["hits"]["total"]["value"]
+
+    #     jobs = [hit["_source"] for hit in hits]
+    #     return Page(items=jobs, total=total)
