@@ -1,0 +1,24 @@
+-- Insert into companies table
+INSERT INTO companies (
+    name, staff_id, website, address, city_id, logo_url, established_in, contact_email, contact_phone, company_size, description, created_at, updated_at
+) VALUES
+('Ánh Dương', 17, 'www.anhduong.com', '123 Nguyễn Trãi, Thanh Xuân, Hà Nội', 1, 'https://example.com/logo1.png', '2024-06-24', 'user1@example.com', '123456789', 50, 'Công ty Ánh Dương chuyên cung cấp các giải pháp công nghệ thông tin.', NOW(), NOW()),
+('Sunrise Co., Ltd.', 18, 'www.sunrise.co.jp', '456 Shibuya, Tokyo', 2, 'https://example.com/logo2.png', '2024-06-24', 'user2@example.com', '987654321', 100, 'Sunrise Co., Ltd. provides cutting-edge IT solutions.', NOW(), NOW()),
+('Vịnh Xuân', 19, 'www.vinhxuan.vn', '789 Lê Lợi, Quận 1, TP HCM', 3, 'https://example.com/logo3.png', '2024-06-24', 'user3@example.com', '135792468', 80, 'Vịnh Xuân chuyên phát triển ứng dụng di động và phần mềm.', NOW(), NOW()),
+('新光電子株式会社', 20, 'www.shinko.co.jp', '789 Shinjuku, Tokyo', 2, 'https://example.com/logo4.png', '2024-06-24', 'user4@example.com', '246813579', 120, '新光電子株式会社は最新のITソリューションを提供します。', NOW(), NOW()),
+('Morning Star', 21, 'www.morningstar.com', '123 Kim Mã, Ba Đình, Hà Nội', 1, 'https://example.com/logo5.png', '2024-06-24', 'user5@example.com', '369258147', 60, 'Morning Star specializes in cloud computing services.', NOW(), NOW()),
+('Hoàng Long', 22, 'www.hoanglong.vn', '456 Nguyễn Văn Linh, Liên Chiểu, Đà Nẵng', 3, 'https://example.com/logo6.png', '2024-06-24', 'user6@example.com', '987654321', 90, 'Hoàng Long cung cấp các giải pháp hạ tầng mạng.', NOW(), NOW()),
+('サイバーテック株式会社', 23, 'www.cybertech.co.jp', '789 Ueno, Tokyo', 2, 'https://example.com/logo7.png', '2024-06-24', 'user7@example.com', '123456789', 80, 'サイバーテック株式会社はサイバーセキュリティソリューションを提供しています。', NOW(), NOW()),
+('Rising Dragon', 24, 'www.risingdragon.com', '123 Huế, Huế', 4, 'https://example.com/logo8.png', '2024-06-24', 'user8@example.com', '987654321', 70, 'Rising Dragon provides cutting-edge AI solutions.', NOW(), NOW()),
+('Bình Minh', 25, 'www.binhminh.vn', '456 Lý Thường Kiệt, Quận 10, TP HCM', 3, 'https://example.com/logo9.png', '2024-06-24', 'user9@example.com', '369258147', 80, 'Công ty TNHH Bình Minh chuyên sản xuất và phân phối thiết bị điện tử.', NOW(), NOW()),
+('太陽テック株式会社', 26, 'www.taiyotech.co.jp', '789 Nihonbashi, Tokyo', 2, 'https://example.com/logo10.png', '2024-06-24', 'user10@example.com', '135792468', 100, '太陽テック株式会社はITコンサルティングを行っています。', NOW(), NOW()),
+('StarTech', 27, 'www.startech.com', '123 Madison Avenue, New York', 5, 'https://example.com/logo11.png', '2024-06-24', 'user11@example.com', '987654321', 150, 'StarTech specializes in digital marketing solutions.', NOW(), NOW()),
+('Sao Mai', 28, 'www.saomai.vn', '456 Trần Hưng Đạo, Quận 1, TP HCM', 3, 'https://example.com/logo12.png', '2024-06-24', 'user12@example.com', '246813579', 80, 'Công ty Cổ phần Sao Mai là nhà phân phối hàng đầu trong lĩnh vực điện tử.', NOW(), NOW()),
+('明日科技有限公司', 29, 'www.mingtech.com', '789 Wufeng, Taipei', 6, 'https://example.com/logo13.png', '2024-06-24', 'user13@example.com', '123456789', 120, '明日科技有限公司提供專業的IT解決方案。', NOW(), NOW()),
+('Golden Gate', 30, 'www.goldengate.com', '123 Golden Gate Avenue, San Francisco', 7, 'https://example.com/logo14.png', '2024-06-24', 'user14@example.com', '369258147', 200, 'Golden Gate offers software development and consultancy services.', NOW(), NOW()),
+('Kim Tự Tháp', 31, 'www.kimtuthap.vn', '456 Lê Duẩn, Đống Đa, Hà Nội', 1, 'https://example.com/logo15.png', '2024-06-24', 'user15@example.com', '987654321', 80, 'Công ty Cổ phần Kim Tự Tháp chuyên cung cấp giải pháp phần mềm quản lý.', NOW(), NOW()),
+('日の出テクノロジー株式会社', 32, 'www.hinode-tech.co.jp', '789 Asakusa, Tokyo', 2, 'https://example.com/logo16.png', '2024-06-24', 'user16@example.com', '135792468', 150, '日の出テクノロジー株式会社はクラウドサービスを提供しています。', NOW(), NOW()),
+('Polaris', 33, 'www.polaris.com', '123 Polaris Avenue, Los Angeles', 8, 'https://example.com/logo17.png', '2024-06-24', 'user17@example.com', '246813579', 180, 'Polaris specializes in AI-driven solutions for business optimization.', NOW(), NOW()),
+('Bạch Dương', 34, 'www.bachduong.vn', '456 Bạch Đằng, Quận Bình Thạnh, TP HCM', 3, 'https://example.com/logo18.png', '2024-06-24', 'user18@example.com', '123456789', 90, 'Công ty TNHH Bạch Dương chuyên sản xuất linh kiện điện tử.', NOW(), NOW()),
+('黎明科技有限公司', 35, 'www.limingtech.com', '789 Xinyi, Taipei', 6, 'https://example.com/logo19.png', '2024-06-24', 'user19@example.com', '987654321', 130, '黎明科技有限公司提供專業的數據分析解決方案。', NOW(), NOW()),
+('Galaxy Tech', 36, 'www.galaxytech.com', '123 Galaxy Boulevard, London', 9, 'https://example.com/logo20.png', '2024-06-24', 'user20@example.com', '369258147', 250, 'Galaxy Tech provides innovative IT solutions for global clients.', NOW(), NOW());

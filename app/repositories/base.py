@@ -110,7 +110,7 @@ class BaseRepository(Generic[T]):
     def count(self, condition=None) -> int:
         try:
             query = self._filter_not_deleted()
-            if condition:
+            if condition is not None:
                 query = query.filter(condition)
             return query.count()
         except SQLAlchemyError as e:
