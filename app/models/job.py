@@ -21,7 +21,7 @@ class Job(Base):
     title = Column(String(255), nullable=False, default="")
     company_id = Column(Integer, nullable=False, default=0)
     employment_type = Column(String(15), nullable=False, default="")
-    salary_type = Column(String(2))
+    salary_type = Column(SmallInteger)
     min_salary = Column(Numeric(precision=13, scale=2))
     max_salary = Column(Numeric(precision=13, scale=2))
     currency_cd = Column(String(3))

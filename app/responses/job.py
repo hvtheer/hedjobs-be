@@ -25,7 +25,7 @@ class JobResponse(BaseResponse):
     title: str
     company_id: int
     employment_type: str
-    salary_type: Optional[str] = None
+    salary_type: Optional[int] = None
     min_salary: Optional[float] = None
     max_salary: Optional[float] = None
     currency_cd: Optional[str] = None
@@ -37,7 +37,7 @@ class JobResponse(BaseResponse):
     benefits: Optional[str] = None
     posted_date: Optional[date] = None
     closed_date: Optional[date] = None
-    status: str
+    status: int
     career_id: Optional[int] = None
     position_id: Optional[int] = None
     interview_process: Optional[str] = None
@@ -45,7 +45,7 @@ class JobResponse(BaseResponse):
 
 
 class JobDetailsResponse(BaseResponse):
-    job: Job
-    skills: Optional[List[JobSkill]] = None
-    certificates: Optional[List[JobCertificate]] = None
-    educations: Optional[List[JobEducation]] = None
+    job: JobResponse
+    skills: Optional[List[JobSkillResponse]] = None
+    certificates: Optional[List[JobCertificateResponse]] = None
+    educations: Optional[List[JobEducationResponse]] = None

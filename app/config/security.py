@@ -18,7 +18,7 @@ SPECIAL_CHARACTERS = ["@", "#", "$", "%", "=", ":", "?", ".", "/", "|", "~", ">"
 settings = get_settings()
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login", auto_error=False)
 
 
 def hash_password(password):
@@ -81,6 +81,10 @@ async def get_token_user(token: str, db):
 async def get_current_user(
     token: str = Depends(oauth2_scheme), db: Session = Depends(get_session)
 ):
+    if token is None:
+        raise CustomException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail=ErrorMessage.NOT_AUTHORIZED
+        )
     user = await get_token_user(token=token, db=db)
     if user:
         return user

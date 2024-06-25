@@ -30,15 +30,7 @@ class UserRepository(BaseRepository[User]):
 
     def get_user_by_email(self, email):
         condition = User.email == email
-        order_by = asc(User.email)
-
-        users = self.get_all(condition=condition, order_by=order_by)
-
-        # users = self.get_all(condition=condition)
-
-        for user in users:
-            print(user.email)
+        users = self.get_all(condition=condition)
         if not users:
             return None
-        # print(users[0].email)
         return users[0]

@@ -1,15 +1,14 @@
 from fastapi import APIRouter, Depends, status, Query
 from sqlalchemy.orm import Session
 from typing import Optional
+
 from app.config.database import get_session
 from app.responses.base import Page, SuccessResponse
-from app.responses.user import UserResponse
 from app.responses.company import CompanyResponse
-from app.config.security import get_current_user, oauth2_scheme, require_role
+from app.config.security import require_role
 from app.schemas.company import CompanyRequest
 from app.services.company import CompanyService
 from app.config.constants import SuccessMessage, UserRole
-
 
 router = APIRouter(
     prefix="/companies",

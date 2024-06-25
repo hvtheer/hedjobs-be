@@ -13,7 +13,8 @@ class CompanyRepository(BaseRepository[Company]):
         )
 
     def get_company_by_staff_id(self, staff_id):
-        companies = self.get_all(condition={"staff_id": staff_id})
+        condition = Company.staff_id == staff_id
+        companies = self.get_all(condition=condition)
         if not companies:
             return None
         return companies[0]
