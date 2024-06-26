@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.models import Student
 from .base import BaseRepository
 
+
 class StudentRepository(BaseRepository[Student]):
     def __init__(self, session: Session):
         super().__init__(

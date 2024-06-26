@@ -4,6 +4,7 @@ from pydantic import EmailStr
 
 from .base import BaseResponse
 
+
 class UserBase(BaseResponse):
     name: str
     email: EmailStr
@@ -11,9 +12,11 @@ class UserBase(BaseResponse):
     is_active: bool
     role: str
 
+
 class UserResponse(UserBase):
     user_id: int
     created_at: datetime
+
 
 class LoginResponse(BaseResponse):
     access_token: str

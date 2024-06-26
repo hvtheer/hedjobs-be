@@ -1,7 +1,7 @@
-
 from pydantic import EmailStr, BaseModel
 
 from .base import BaseResponse
+
 
 class UserResponse(BaseResponse):
     user_id: int

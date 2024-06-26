@@ -2,8 +2,9 @@ from sqlalchemy import Boolean, Column, Integer, String
 
 from app.models import Base
 
+
 class Student(Base):
-    __tablename__ = 'students'
+    __tablename__ = "students"
 
     student_id = Column(Integer, primary_key=True)
     name = Column(String(150), nullable=False)

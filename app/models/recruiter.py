@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean
 
 from app.models import Base
 
+
 class Recruiter(Base):
     __tablename__ = "recruiters"
 

@@ -2,8 +2,9 @@ from sqlalchemy import Boolean, Column, DateTime, Integer, String, func
 
 from app.models import Base
 
+
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
     user_id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(150), nullable=False)
     email = Column(String(255), nullable=False)
@@ -18,7 +19,7 @@ class User(Base):
 
     def get_context_string(self, context: str):
         return f"{context}{self.password[-6:]}{self.updated_at.strftime('%m%d%Y%H%M%S')}".strip()
-    
+
 
 class UserToken(Base):
     __tablename__ = "user_tokens"

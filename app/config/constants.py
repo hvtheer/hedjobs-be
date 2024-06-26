@@ -1,7 +1,8 @@
 class UserRole:
-    ADMIN = 'ADM'
-    RECRUITER = 'REC'
-    STUDENT = 'STD'
+    ADMIN = "ADM"
+    RECRUITER = "REC"
+    STUDENT = "STD"
+
 
 class ErrorMessage:
     # Common error messages
@@ -17,6 +18,7 @@ class ErrorMessage:
     # Login error messages
     INCORRECT = "incorrect"
     INACTIVE_ACCOUNT = "inactive_account"
+
 
 class SuccessMessage:
     # Common success messages
@@ -34,6 +36,7 @@ class SuccessMessage:
     DEACTIVATED = "deactivated"
 
     FORGOT_PASSWORD = "forgot_password"
+
 
 class InfoMessage:
     # Common info messages

@@ -17,15 +17,15 @@ from app.services.base import BaseService
 
 settings = get_settings()
 
-class UserService(BaseService):
 
+class UserService(BaseService):
     def __init__(self, session: Session):
         self.user_repository = UserRepository(session)
         self.student_repository = StudentRepository(session)
-    
+
     async def get_all_users(self):
         return self.user_repository.get_all(order_by=User.name)
-    
+
     # async def get_me(self, user_id: int):
     #     user = self.user_repository.get_by_id(user_id)
     #     if not user:
@@ -44,5 +44,3 @@ class UserService(BaseService):
     #     except Exception as e:
     #         logging.exception(f"An error occurred in create_user for model: {e}")
     #         raise CustomException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
-    
-

@@ -8,6 +8,7 @@ from app.utils.exception import CustomException, custom_exception_handler
 
 settings = get_settings()
 
+
 def create_application():
     application = FastAPI()
     application.include_router(router)
@@ -25,3 +26,10 @@ def create_application():
 
 
 app = create_application()
+
+
+# @app.on_event("startup")
+# async def startup_event():
+#     """Startup event: Create Elasticsearch index and index all jobs."""
+#     await create_index()
+#     await index_jobs()
