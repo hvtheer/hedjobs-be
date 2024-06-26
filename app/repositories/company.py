@@ -11,10 +11,3 @@ class CompanyRepository(BaseRepository[Company]):
             model=Company,
             column_id=Company.company_id,
         )
-
-    def get_company_by_staff_id(self, staff_id):
-        condition = Company.staff_id == staff_id
-        companies = self.get_all(condition=condition)
-        if not companies:
-            return None
-        return companies[0]

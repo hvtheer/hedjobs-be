@@ -18,22 +18,8 @@ from .email import EmailService
 from app.utils.string import unique_string
 from app.utils.email_context import USER_VERIFY_ACCOUNT
 from app.utils.exception import CustomException
-from app.utils import create_user_role_entity
-from app.repositories import (
-    UserRepository,
-    StudentRepository,
-    UserTokenRepository,
-    RecruiterRepository,
-    CompanyRepository,
-    JobRepository,
-    JobSkillRepository,
-    JobEducationRepository,
-    JobCertificateRepository,
-    MCareerRepository,
-    MPositionRepository,
-    MSkillRepository,
-    MCityRepository,
-)
+from app.utils import *
+from app.repositories import *
 from app.config.constants import ErrorMessage, UserRole, SuccessMessage
 from app.config.settings import get_settings
 from app.responses.base import SuccessResponse, InfoResponse
@@ -44,16 +30,23 @@ settings = get_settings()
 class BaseService:
     def __init__(self, session: Session):
         self.session = session
+        self.email_service = EmailService()
         self.user_repository = UserRepository(session)
-        self.student_repository = StudentRepository(session)
         self.user_token_repository = UserTokenRepository(session)
+
+        self.student_repository = StudentRepository(session)
+        self.student_skill_repository = StudentSkillRepository(session)
+        self.student_education_repository = StudentEducationRepository(session)
+        self.student_certificate_repository = StudentCertificateRepository(session)
+        self.student_career_repository = StudentCareerRepository(session)
+
         self.recruiter_repository = RecruiterRepository(session)
         self.company_repository = CompanyRepository(session)
-        self.email_service = EmailService()
         self.job_repository = JobRepository(session)
         self.job_skill_repository = JobSkillRepository(session)
         self.job_education_repository = JobEducationRepository(session)
         self.job_certificate_repository = JobCertificateRepository(session)
+
         self.m_career_repository = MCareerRepository(session)
         self.m_position_repository = MPositionRepository(session)
         self.m_skill_repository = MSkillRepository(session)
@@ -66,9 +59,3 @@ class BaseService:
         self.create_user_role_entity(
             user, UserRole.RECRUITER, self.recruiter_repository
         )
-
-    def _get_user_by_email(self, email):
-        user = self.user_repository.get_user_by_email(email)
-        if not user:
-            return None
-        return user

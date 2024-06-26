@@ -11,10 +11,11 @@ from app.config.security import (
     verify_password,
     hash_password,
 )
-from app.models import User, Student, UserToken
+from app.models import *
 from app.services.base import BaseService
 from app.repositories.recruiter import RecruiterRepository
 from .email import EmailService
+from app.utils import *
 from app.utils.string import unique_string
 from app.utils.email_context import USER_VERIFY_ACCOUNT
 from app.utils.exception import CustomException
@@ -32,11 +33,10 @@ class AuthService(BaseService):
 
     async def register(self, new_user, background):
         try:
-            if self.user_repository.get_user_by_email(new_user["email"]):
-                raise CustomException(
-                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                    detail=ErrorMessage.ALREADY_EXISTS,
-                )
+            ensure_unique_record(
+                repository=self.user_repository,
+                condition=User.email == new_user["email"],
+            )
             user = self.user_repository.create(new_user)
             self._create_student(user)
             self._create_recruiter(user)
@@ -56,7 +56,7 @@ class AuthService(BaseService):
 
     async def activate_user_account(self, data, background_tasks):
         try:
-            user = self._get_user_by_email(data["email"])
+            user = get_record_or_404(User.email == data["email"])
             self._validate_token(user, data["token"], USER_VERIFY_ACCOUNT)
             self._update_user_status(
                 user, is_active=True, verified_at=datetime.utcnow()
@@ -77,7 +77,9 @@ class AuthService(BaseService):
 
     async def get_login_token(self, data):
         try:
-            user = self._get_user_by_email(data.username)
+            user = get_record_or_404(
+                repository=self.user_repository, condition=User.email == data.username
+            )
             self._validate_credentials(user, data.password)
             self._validate_user_status(user)
             self._update_user_status(user, last_login_at=datetime.utcnow())

@@ -9,7 +9,7 @@ from app.responses.base import Page, SuccessResponse
 from app.config.constants import ErrorMessage, SuccessMessage
 from app.utils.exception import CustomException
 from app.models.company import Company
-from app.utils.search import ilike_search
+from app.utils import *
 
 
 class CompanyService(BaseService):
@@ -17,29 +17,24 @@ class CompanyService(BaseService):
         super().__init__(session)
 
     async def create_company(self, new_company, staff_id):
-        if self.company_repository.get_company_by_staff_id(staff_id):
-            raise CustomException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail=ErrorMessage.ALREADY_EXISTS,
-            )
+        ensure_unique_record(
+            repository=self.company_repository, condition=Company.staff_id == staff_id
+        )
         new_company["staff_id"] = staff_id
         company = self.company_repository.create(new_company)
         return SuccessResponse(message=SuccessMessage.CREATED, data=company)
 
     async def get_own_company(self, staff_id):
-        company = self.company_repository.get_company_by_staff_id(staff_id)
-        if not company:
-            raise CustomException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=ErrorMessage.NOT_FOUND
-            )
+        company = get_record_or_404(
+            repository=self.company_repository, condition=Company.staff_id == staff_id
+        )
         return SuccessResponse(message=SuccessMessage.SUCCESS, data=company)
 
     async def get_company_by_id(self, company_id):
-        company = self.company_repository.get_by_id(company_id)
-        if not company:
-            raise CustomException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=ErrorMessage.NOT_FOUND
-            )
+        company = get_record_or_404(
+            repository=self.company_repository,
+            condition=Company.company_id == company_id,
+        )
         return SuccessResponse(message=SuccessMessage.SUCCESS, data=company)
 
     async def get_companies(self, name: str = None, page: int = None, size: int = None):
