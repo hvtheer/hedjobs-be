@@ -1,4 +1,4 @@
-# version: '3.8'
+version: '3.8'
 
 services:
   pgadmin:
@@ -54,26 +54,47 @@ services:
     volumes:
       - hedjobs_postgres_data:/var/lib/postgres
 
-  minio-service:
-    image: minio/minio
-    restart: unless-stopped
-    container_name: minio
-    command: minio server --console-address ":9090" /data
-    environment:
-      - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin
-    ports:
-      - '9000:9000'
-      - '9090:9090'
-    networks:
-      - hedjobs
-    volumes:
-      - minio-data:/data
+  # minio-service:
+  #   image: minio/minio
+  #   restart: unless-stopped
+  #   container_name: minio
+  #   command: minio server --console-address ":9090" /data
+  #   environment:
+  #     - MINIO_ROOT_USER=minioadmin
+  #     - MINIO_ROOT_PASSWORD=minioadmin
+  #   ports:
+  #     - '9000:9000'
+  #     - '9090:9090'
+  #   networks:
+  #     - hedjobs
+  #   volumes:
+  #     - minio-data:/data
+
+  # elasticsearch-service:
+  #   image: elasticsearch:8.14.1
+  #   container_name: elasticsearch
+  #   environment:
+  #     - discovery.type=single-node
+  #     - ES_JAVA_OPTS=-Xms512m -Xmx512m
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   volumes:
+  #     - elasticsearch_data:/usr/share/elasticsearch/data
+  #   ports:
+  #     - '9200:9200'
+  #     - '9300:9300'
+  #   networks:
+  #     - hedjobs
 
 networks:
   hedjobs:
+
 volumes:
   hedjobs_postgres_data:
     driver: local
   minio-data:
+    driver: local
+  elasticsearch_data:
     driver: local

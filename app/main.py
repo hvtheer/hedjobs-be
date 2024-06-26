@@ -26,3 +26,10 @@ def create_application():
 
 
 app = create_application()
+
+
+# @app.on_event("startup")
+# async def startup_event():
+#     """Startup event: Create Elasticsearch index and index all jobs."""
+#     await create_index()
+#     await index_jobs()

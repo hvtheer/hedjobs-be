@@ -19,7 +19,7 @@ class Job(Base):
 
     job_id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(255), nullable=False, default="")
-    company_id = Column(Integer, nullable=False, default=0)
+    company_id = Column(Integer, nullable=False)
     employment_type = Column(
         SmallInteger
     )  # 1: Full-time, 2: Part-time, 3: Contract, 4: Temporary, 5: Internship, 6: Freelance
@@ -54,3 +54,7 @@ class Job(Base):
 def receive_before_update(mapper, connection, target):
     if target.closed_date and target.closed_date <= date.today():
         target.status = 0
+
+
+# @listens_for(Job, "after_update")
+# def recreate_index(mapper, connection, target):

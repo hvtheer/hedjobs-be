@@ -18,14 +18,14 @@ class JobEducationRequest(BaseModel):
 
 class JobRequest(BaseModel):
     title: str
-    employment_type: str
+    employment_type: int
     salary_type: Optional[int] = None
     min_salary: Optional[float] = None
     max_salary: Optional[float] = None
     currency_cd: Optional[str] = None
     city_id: Optional[int] = None
     location: Optional[str] = None
-    working_arrangement: str
+    working_arrangement: int
     description: Optional[str] = None
     requirements: Optional[str] = None
     benefits: Optional[str] = None

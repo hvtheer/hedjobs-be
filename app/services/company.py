@@ -1,6 +1,6 @@
 from fastapi import status
 from sqlalchemy.orm import Session
-from sqlalchemy import or_, func, asc
+from sqlalchemy import or_, func, asc, desc
 from unidecode import unidecode
 
 from app.models import Company
@@ -9,6 +9,7 @@ from app.responses.base import Page, SuccessResponse
 from app.config.constants import ErrorMessage, SuccessMessage
 from app.utils.exception import CustomException
 from app.models.company import Company
+from app.utils.search import ilike_search
 
 
 class CompanyService(BaseService):
@@ -44,14 +45,12 @@ class CompanyService(BaseService):
     async def get_companies(self, name: str = None, page: int = None, size: int = None):
         condition = None
         if name:
-            condition = or_(
-                func.unaccent(Company.name).ilike(f"%{name.lower()}%"),
-                func.lower(Company.name).ilike(f"%{unidecode(name.lower())}%"),
-            )
-        order_by = asc(Company.name)
+            condition = ilike_search(Company, "name", name)
+        order_by = [asc(Company.name), desc(Company.company_size)]
         pagination = {"page": page, "size": size}
         companies = self.company_repository.get_all(
             pagination=pagination, condition=condition, order_by=order_by
         )
         total = self.company_repository.count(condition=condition)
-        return Page(total=total, items=companies)
+        data = Page(total=total, items=companies)
+        return SuccessResponse(message=SuccessMessage.SUCCESS, data=data)

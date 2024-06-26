@@ -12,3 +12,4 @@ from .m_career import MCareer
 from .m_position import MPosition
 from .m_skill import MSkill
 from .m_certificate import MCertificate
+from .m_city import MCity

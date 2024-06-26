@@ -55,7 +55,12 @@ class BaseRepository(Generic[T]):
             if condition is not None:
                 query = query.filter(condition)
             if order_by is not None:
-                query = query.order_by(order_by)
+                # Check if order_by is a list of columns and unpack it
+                if isinstance(order_by, list):
+                    query = query.order_by(*order_by)
+                else:
+                    # Single column, maintain backward compatibility
+                    query = query.order_by(order_by)
             if pagination:
                 if "page" in pagination and "size" in pagination:
                     page = pagination["page"]

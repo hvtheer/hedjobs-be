@@ -28,6 +28,10 @@ from app.repositories import (
     JobSkillRepository,
     JobEducationRepository,
     JobCertificateRepository,
+    MCareerRepository,
+    MPositionRepository,
+    MSkillRepository,
+    MCityRepository,
 )
 from app.config.constants import ErrorMessage, UserRole, SuccessMessage
 from app.config.settings import get_settings
@@ -49,6 +53,10 @@ class BaseService:
         self.job_skill_repository = JobSkillRepository(session)
         self.job_education_repository = JobEducationRepository(session)
         self.job_certificate_repository = JobCertificateRepository(session)
+        self.m_career_repository = MCareerRepository(session)
+        self.m_position_repository = MPositionRepository(session)
+        self.m_skill_repository = MSkillRepository(session)
+        self.m_city_repository = MCityRepository(session)
 
     def _create_student(self, user):
         if user.role == UserRole.STUDENT:

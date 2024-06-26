@@ -43,8 +43,7 @@ async def get_companies(
     size: int = Query(10, description="Page size"),
 ):
     company_service = CompanyService(session)
-    result = await company_service.get_companies(name=name, page=page, size=size)
-    return SuccessResponse(message="Companies retrieved successfully", data=result)
+    return await company_service.get_companies(name=name, page=page, size=size)
 
 
 @router.get(
