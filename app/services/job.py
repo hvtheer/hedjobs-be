@@ -7,7 +7,7 @@ from app.responses.job import JobDetailsResponse
 from app.config.constants import ErrorMessage, SuccessMessage, UserRole
 from app.utils.exception import CustomException
 from sqlalchemy import desc
-from app.utils import combine_conditions, ilike_search
+from app.utils import combine_conditions, ilike_search, create_related_entities
 
 
 class JobService(BaseService):
@@ -25,14 +25,17 @@ class JobService(BaseService):
         company = self._get_company_by_staff_id(staff_id)
         job_data["company_id"] = company.company_id
         job = self.job_repository.create(job_data)
-        skills = create_job_related_entities(
-            job.job_id, skills_data, self.job_skill_repository.create
+        skills = create_related_entities(
+            job.job_id, "job_id", skills_data, self.job_skill_repository.create
         )
-        certificates = create_job_related_entities(
-            job.job_id, certificates_data, self.job_certificate_repository.create
+        certificates = create_related_entities(
+            job.job_id,
+            "job_id",
+            certificates_data,
+            self.job_certificate_repository.create,
         )
-        educations = create_job_related_entities(
-            job.job_id, educations_data, self.job_education_repository.create
+        educations = create_related_entities(
+            job.job_id, "job_id", educations_data, self.job_education_repository.create
         )
 
         data = JobDetailsResponse(
