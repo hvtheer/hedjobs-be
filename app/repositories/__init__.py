@@ -6,6 +6,7 @@ from .student import StudentRepository
 from .student_skill import StudentSkillRepository
 from .student_certificate import StudentCertificateRepository
 from .student_career import StudentCareerRepository
+from .student_education import StudentEducationRepository
 
 from .recruiter import RecruiterRepository
 from .company import CompanyRepository

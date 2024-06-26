@@ -5,6 +5,7 @@ from .student import Student
 from .student_skill import StudentSkill
 from .student_certificate import StudentCertificate
 from .student_career import StudentCareer
+from .student_education import StudentEducation
 
 from .recruiter import Recruiter
 from .company import Company
