@@ -6,6 +6,7 @@ from passlib.context import CryptContext
 import base64
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
+from typing import Optional
 
 from app.config.database import get_session
 from app.config.settings import get_settings
@@ -79,23 +80,21 @@ async def get_token_user(token: str, db):
 
 
 async def get_current_user(
-    token: str = Depends(oauth2_scheme), db: Session = Depends(get_session)
+    token: Optional[str] = Depends(oauth2_scheme), db: Session = Depends(get_session)
 ):
-    if token is None:
+    if token:
+        user = await get_token_user(token=token, db=db)
+        if user:
+            return user
         raise CustomException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail=ErrorMessage.NOT_AUTHORIZED
         )
-    user = await get_token_user(token=token, db=db)
-    if user:
-        return user
-    raise CustomException(
-        status_code=status.HTTP_401_UNAUTHORIZED, detail=ErrorMessage.NOT_AUTHORIZED
-    )
+    return None
 
 
 def require_role(*required_roles: str):
     def role_checker(current_user=Depends(get_current_user)):
-        if current_user.role not in required_roles:
+        if not current_user or current_user.role not in required_roles:
             raise CustomException(
                 status_code=status.HTTP_403_FORBIDDEN, detail=ErrorMessage.FORBIDDEN
             )
