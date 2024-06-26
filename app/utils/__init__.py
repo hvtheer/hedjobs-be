@@ -1,4 +1,5 @@
 from .search import *
+from .user import *
 
 
 def create_job_related_entities(job_id, entities_data, create_method):

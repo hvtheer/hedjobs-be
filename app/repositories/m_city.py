@@ -9,5 +9,5 @@ class MCityRepository(BaseRepository[MCity]):
         super().__init__(
             session=session,
             model=MCity,
-            column_id=MCity.auto_id,
+            column_id=MCity.city_id,
         )

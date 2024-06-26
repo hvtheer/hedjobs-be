@@ -18,6 +18,7 @@ from .email import EmailService
 from app.utils.string import unique_string
 from app.utils.email_context import USER_VERIFY_ACCOUNT
 from app.utils.exception import CustomException
+from app.utils import create_user_role_entity
 from app.repositories import (
     UserRepository,
     StudentRepository,
@@ -59,24 +60,12 @@ class BaseService:
         self.m_city_repository = MCityRepository(session)
 
     def _create_student(self, user):
-        if user.role == UserRole.STUDENT:
-            new_student = {
-                "student_id": user.user_id,
-                "name": user.name,
-                "email": user.email,
-                "phone_number": user.phone_number,
-            }
-            self.student_repository.create(new_student)
+        self.create_user_role_entity(user, UserRole.STUDENT, self.student_repository)
 
     def _create_recruiter(self, user):
-        if user.role == UserRole.RECRUITER:
-            new_recruiter = {
-                "recruiter_id": user.user_id,
-                "name": user.name,
-                "email": user.email,
-                "phone_number": user.phone_number,
-            }
-            self.recruiter_repository.create(new_recruiter)
+        self.create_user_role_entity(
+            user, UserRole.RECRUITER, self.recruiter_repository
+        )
 
     def _get_user_by_email(self, email):
         user = self.user_repository.get_user_by_email(email)

@@ -5,7 +5,7 @@ from app.models import Base
 class StudentCertificate(Base):
     __tablename__ = "student_certificates"
 
-    student_certificate_id = Column(Integer, primary_key=True, autoincrement=True)
+    auto_id = Column(Integer, primary_key=True, autoincrement=True)
     student_id = Column(Integer)
     certificate_id = Column(Integer)
     certificate_year = Column(Integer)

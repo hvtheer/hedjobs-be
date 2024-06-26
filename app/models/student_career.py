@@ -5,7 +5,7 @@ from app.models import Base
 class StudentCareer(Base):
     __tablename__ = "student_careers"
 
-    student_career_id = Column(Integer, primary_key=True, autoincrement=True)
+    auto_id = Column(Integer, primary_key=True, autoincrement=True)
     student_id = Column(Integer)
     career_id = Column(Integer)
     position_id = Column(Integer)
