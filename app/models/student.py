@@ -12,6 +12,8 @@ class Student(Base):
     address = Column(String(255))
     phone_number = Column(String(20))
     is_deleted = Column(Boolean, default=False, nullable=False)
+    expected_city_id = Column(Integer)
+    expected_salary = Column(Integer)
 
     def get_context_string(self):
         return f"{self.student_id}-{self.email}"

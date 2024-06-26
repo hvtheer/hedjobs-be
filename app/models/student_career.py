@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Date
 from app.models import Base
 
 
@@ -9,4 +9,6 @@ class StudentCareer(Base):
     student_id = Column(Integer)
     career_id = Column(Integer)
     position_id = Column(Integer)
+    start_date = Column(Date)
+    end_date = Column(Date)
     description = Column(String)

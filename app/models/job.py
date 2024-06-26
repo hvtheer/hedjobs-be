@@ -24,8 +24,8 @@ class Job(Base):
         SmallInteger
     )  # 1: Full-time, 2: Part-time, 3: Contract, 4: Temporary, 5: Internship, 6: Freelance
     salary_type = Column(SmallInteger)  # 1: Min, 2: Max, 3: Min-Max, 4: Deal
-    min_salary = Column(Numeric(precision=13, scale=2))
-    max_salary = Column(Numeric(precision=13, scale=2))
+    min_salary = Column(Integer)
+    max_salary = Column(Integer)
     currency_cd = Column(String(3))  # USD, VND, JPY
     city_id = Column(SmallInteger)
     location = Column(String(255))
