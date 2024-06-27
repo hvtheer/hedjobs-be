@@ -9,5 +9,5 @@ class MCareerRepository(BaseRepository[MCareer]):
         super().__init__(
             session=session,
             model=MCareer,
-            column_id=MCareer.auto_id,
+            column_id=MCareer.career_id,
         )

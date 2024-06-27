@@ -49,6 +49,15 @@ class BaseRepository(Generic[T]):
             )
             raise e
 
+    def get_first_by_condition(self, condition=None) -> Optional[T]:
+        try:
+            return self._filter_not_deleted().filter(condition).first()
+        except SQLAlchemyError as e:
+            logger.error(
+                f"An error occurred in get_first_by_condition for model {self.model.__name__}: {e}"
+            )
+            raise e
+
     def get_all(self, pagination: Dict[str, Any] = None, condition=None, order_by=None):
         try:
             query = self._filter_not_deleted()
@@ -85,11 +94,11 @@ class BaseRepository(Generic[T]):
             self.session.rollback()
             raise e
 
-    def update_by_condition(self, condition: dict, obj_in: dict) -> T:
+    def update_by_condition(self, condition, obj_in: dict) -> T:
         try:
-            self._filter_not_deleted().filter_by(**condition).update(obj_in)
+            self._filter_not_deleted().filter(condition).update(obj_in)
             self.session.commit()
-            return self._filter_not_deleted().filter_by(**condition).first()
+            return self._filter_not_deleted().filter(condition).first()
         except SQLAlchemyError as e:
             logger.error(
                 f"An error occurred in update_by_condition for model {self.model.__name__} with condition {condition}: {e}"
@@ -97,20 +106,39 @@ class BaseRepository(Generic[T]):
             self.session.rollback()
             raise e
 
-    def delete_by_id(self, id: int) -> T:
+    def delete_by_id(self, id: int) -> bool:
         try:
             if hasattr(self.model, self.column_delete):
                 self.update_by_id(id, {self.column_delete: True})
             else:
-                self.session.delete(self.get_by_id(id))
+                entity = self.get_by_id(id)
+                if entity:
+                    self.session.delete(entity)
             self.session.commit()
-            return self.get_by_id(id)
+            return True
         except SQLAlchemyError as e:
             logger.error(
                 f"An error occurred in delete_by_id for model {self.model.__name__} with id {id}: {e}"
             )
             self.session.rollback()
-            raise e
+            return False
+
+    def delete_by_condition(self, condition) -> bool:
+        try:
+            if hasattr(self.model, self.column_delete):
+                self.update_by_condition(condition, {self.column_delete: True})
+            else:
+                deleted_count = self._filter_not_deleted().filter(condition).delete()
+                if deleted_count == 0:
+                    return False
+            self.session.commit()
+            return True
+        except SQLAlchemyError as e:
+            logger.error(
+                f"An error occurred in delete_by_condition for model {self.model.__name__} with condition {condition}: {e}"
+            )
+            self.session.rollback()
+            return False
 
     def count(self, condition=None) -> int:
         try:

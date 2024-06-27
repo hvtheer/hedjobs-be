@@ -6,18 +6,15 @@ from .company import CompanyResponse
 
 
 class JobSkillResponse(BaseResponse):
-    job_skill_id: int
     skill_id: int
     skill_yoe: Optional[int] = None
 
 
 class JobCertificateResponse(BaseResponse):
-    job_certificate_id: int
     certificate_id: int
 
 
 class JobEducationResponse(BaseResponse):
-    job_education_id: int
     education_id: int
 
 
@@ -27,8 +24,8 @@ class JobResponse(BaseResponse):
     company_id: int
     employment_type: int
     salary_type: Optional[int] = None
-    min_salary: Optional[float] = None
-    max_salary: Optional[float] = None
+    min_salary: Optional[int] = None
+    max_salary: Optional[int] = None
     currency_cd: Optional[str] = None
     city_id: Optional[int] = None
     location: Optional[str] = None
