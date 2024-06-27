@@ -94,11 +94,11 @@ class BaseRepository(Generic[T]):
             self.session.rollback()
             raise e
 
-    def update_by_condition(self, condition: dict, obj_in: dict) -> T:
+    def update_by_condition(self, condition, obj_in: dict) -> T:
         try:
-            self._filter_not_deleted().filter_by(**condition).update(obj_in)
+            self._filter_not_deleted().filter(condition).update(obj_in)
             self.session.commit()
-            return self._filter_not_deleted().filter_by(**condition).first()
+            return self._filter_not_deleted().filter(condition).first()
         except SQLAlchemyError as e:
             logger.error(
                 f"An error occurred in update_by_condition for model {self.model.__name__} with condition {condition}: {e}"
