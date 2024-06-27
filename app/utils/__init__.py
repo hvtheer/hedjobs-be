@@ -2,6 +2,7 @@ from fastapi import status
 from app.config.constants import ErrorMessage, SuccessMessage
 from .search import *
 from .related_entities import *
+from .matching_rate import *
 from .exception import CustomException
 
 

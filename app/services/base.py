@@ -11,7 +11,7 @@ from app.config.security import (
     verify_password,
     hash_password,
 )
-from app.models import User, Student, UserToken
+from app.models import *
 from app.models.recruiter import Recruiter
 from app.repositories.company import CompanyRepository
 from .email import EmailService
@@ -59,3 +59,9 @@ class BaseService:
         self.create_user_role_entity(
             user, UserRole.RECRUITER, self.recruiter_repository
         )
+
+    def calculate_matching_score(
+        student,
+        job,
+    ):
+        pass
