@@ -1,13 +1,38 @@
+from fastapi import status
+from app.config.constants import ErrorMessage, SuccessMessage
 from .search import *
+from .related_entities import *
+from .exception import CustomException
 
 
-def create_job_related_entities(job_id, entities_data, create_method):
-    """
-    Utility function to create job related entities like skills, certificates, and educations.
-    """
-    entities = []
-    for entity_data in entities_data:
-        entity_data["job_id"] = job_id
-        created_entity = create_method(entity_data)
-        entities.append(created_entity)
-    return entities
+def create_user_role_entity(user, role, repository):
+    if user.role == role:
+        new_entity = {
+            f"{role.lower()}_id": user.user_id,
+            "name": user.name,
+            "email": user.email,
+            "phone_number": user.phone_number,
+        }
+        repository.create(new_entity)
+
+
+def get_record_or_404(
+    repository,
+    condition,
+    error_message=ErrorMessage.NOT_FOUND,
+    status_code=status.HTTP_404_NOT_FOUND,
+):
+    record = repository.get_first_by_condition(condition)
+    if not record:
+        raise CustomException(status_code=status_code, detail=error_message)
+    return record
+
+
+def ensure_unique_record(
+    repository,
+    condition,
+    error_message=ErrorMessage.ALREADY_EXISTS,
+    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+):
+    if repository.get_first_by_condition(condition):
+        raise CustomException(status_code=status_code, detail=error_message)

@@ -1,13 +1,13 @@
 from sqlalchemy.orm import Session
 
-from app.models import Company
+from app.models import MSkill
 from .base import BaseRepository
 
 
-class CompanyRepository(BaseRepository[Company]):
+class MSkillRepository(BaseRepository[MSkill]):
     def __init__(self, session: Session):
         super().__init__(
             session=session,
-            model=Company,
-            column_id=Company.company_id,
+            model=MSkill,
+            column_id=MSkill.skill_id,
         )

@@ -25,22 +25,3 @@ class UserService(BaseService):
 
     async def get_all_users(self):
         return self.user_repository.get_all(order_by=User.name)
-
-    # async def get_me(self, user_id: int):
-    #     user = self.user_repository.get_by_id(user_id)
-    #     if not user:
-    #         raise CustomException(status_code=status.HTTP_404_NOT_FOUND, detail=ErrorMessage.NOT_FOUND)
-    #     return user
-
-    # async def create_user(self, new_user):
-    #     try:
-    #         if self.user_repository.get_user_by_email(new_user['email']):
-    #             raise CustomException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=ErrorMessage.ALREADY_EXISTS)
-    #         user = self.user_repository.create(new_user)
-    #         self._create_student_if_needed(user)
-    #         return user
-    #     except CustomException as e:
-    #         raise e
-    #     except Exception as e:
-    #         logging.exception(f"An error occurred in create_user for model: {e}")
-    #         raise CustomException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))

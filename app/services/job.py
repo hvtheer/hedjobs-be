@@ -7,7 +7,8 @@ from app.responses.job import JobDetailsResponse
 from app.config.constants import ErrorMessage, SuccessMessage, UserRole
 from app.utils.exception import CustomException
 from sqlalchemy import desc
-from app.utils import combine_conditions, ilike_search
+from app.utils import *
+from app.models.company import Company
 
 
 class JobService(BaseService):
@@ -22,17 +23,22 @@ class JobService(BaseService):
         certificates_data=None,
         educations_data=None,
     ):
-        company = self._get_company_by_staff_id(staff_id)
+        company = get_record_or_404(
+            repository=self.company_repository, condition=Company.staff_id == staff_id
+        )
         job_data["company_id"] = company.company_id
         job = self.job_repository.create(job_data)
-        skills = create_job_related_entities(
-            job.job_id, skills_data, self.job_skill_repository.create
+        skills = create_related_entities(
+            job.job_id, "job_id", skills_data, self.job_skill_repository
         )
-        certificates = create_job_related_entities(
-            job.job_id, certificates_data, self.job_certificate_repository.create
+        certificates = create_related_entities(
+            job.job_id,
+            "job_id",
+            certificates_data,
+            self.job_certificate_repository,
         )
-        educations = create_job_related_entities(
-            job.job_id, educations_data, self.job_education_repository.create
+        educations = create_related_entities(
+            job.job_id, "job_id", educations_data, self.job_education_repository
         )
 
         data = JobDetailsResponse(
@@ -45,11 +51,9 @@ class JobService(BaseService):
         return SuccessResponse(message=SuccessMessage.CREATED, data=data)
 
     async def get_job_by_id(self, job_id):
-        job = self.job_repository.get_by_id(job_id)
-        if not job:
-            raise CustomException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=ErrorMessage.NOT_FOUND
-            )
+        job = get_record_or_404(
+            repository=self.job_repository, condition=Job.job_id == job_id
+        )
         skills = self.job_skill_repository.get_all(condition=JobSkill.job_id == job_id)
         certificates = self.job_certificate_repository.get_all(
             condition=JobCertificate.job_id == job_id
@@ -100,13 +104,59 @@ class JobService(BaseService):
         data = Page(total=total, items=jobs)
         return SuccessResponse(message=SuccessMessage.SUCCESS, data=data)
 
-    def _get_company_by_staff_id(self, staff_id):
-        company = self.company_repository.get_company_by_staff_id(staff_id)
-        if not company:
+    async def update_job_details(
+        self,
+        staff_id,
+        job_id,
+        job_data,
+        skills_data=None,
+        certificates_data=None,
+        educations_data=None,
+    ):
+        job = get_record_or_404(
+            repository=self.job_repository, condition=Job.job_id == job_id
+        )
+        company = get_record_or_404(
+            repository=self.company_repository, condition=Company.staff_id == staff_id
+        )
+        if job.company_id != company.company_id:
             raise CustomException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=ErrorMessage.NOT_FOUND
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=ErrorMessage.FORBIDDEN,
             )
-        return company
+        job_data["company_id"] = company.company_id
+        job = self.job_repository.update_by_id(job_id, job_data)
+        update_skills = update_related_entities(
+            job_id,
+            "job_id",
+            skills_data,
+            self.job_skill_repository,
+            JobSkill,
+            "skill_id",
+        )
+        update_certificates = update_related_entities(
+            job_id,
+            "job_id",
+            certificates_data,
+            self.job_certificate_repository,
+            JobCertificate,
+            "certificate_id",
+        )
+        update_educations = update_related_entities(
+            job_id,
+            "job_id",
+            educations_data,
+            self.job_education_repository,
+            JobEducation,
+            "education_id",
+        )
+        data = JobDetailsResponse(
+            job=job,
+            skills=update_skills,
+            certificates=update_certificates,
+            educations=update_educations,
+        )
+        return SuccessResponse(message=SuccessMessage.UPDATED, data=data)
 
     def _build_job_search_condition(
         self,
@@ -138,7 +188,10 @@ class JobService(BaseService):
         if company_id:
             conditions.append(Job.company_id == company_id)
         if current_user is not None and current_user.role == UserRole.RECRUITER:
-            company = self._get_company_by_staff_id(current_user.user_id)
+            company = get_record_or_404(
+                repository=self.company_repository,
+                condition=Company.staff_id == current_user.user_id,
+            )
             company_id = company.company_id
             conditions.append(Job.company_id == company_id)
 

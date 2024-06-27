@@ -27,10 +27,3 @@ class UserRepository(BaseRepository[User]):
     def create(self, new_user):
         new_user["password"] = hash_password(new_user["password"])
         return super().create(new_user)
-
-    def get_user_by_email(self, email):
-        condition = User.email == email
-        users = self.get_all(condition=condition)
-        if not users:
-            return None
-        return users[0]
