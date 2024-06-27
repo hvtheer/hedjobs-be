@@ -43,6 +43,7 @@ class JobService(BaseService):
 
         data = JobDetailsResponse(
             job=job,
+            company=company,
             skills=skills,
             certificates=certificates,
             educations=educations,
@@ -54,6 +55,9 @@ class JobService(BaseService):
         job = get_record_or_404(
             repository=self.job_repository, condition=Job.job_id == job_id
         )
+        company = self.company_repository.get_first_by_condition(
+            condition=Company.company_id == job.company_id
+        )
         skills = self.job_skill_repository.get_all(condition=JobSkill.job_id == job_id)
         certificates = self.job_certificate_repository.get_all(
             condition=JobCertificate.job_id == job_id
@@ -64,6 +68,7 @@ class JobService(BaseService):
 
         data = JobDetailsResponse(
             job=job,
+            company=company,
             skills=skills,
             certificates=certificates,
             educations=educations,
@@ -152,6 +157,7 @@ class JobService(BaseService):
         )
         data = JobDetailsResponse(
             job=job,
+            company=company,
             skills=update_skills,
             certificates=update_certificates,
             educations=update_educations,

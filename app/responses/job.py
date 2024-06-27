@@ -1,8 +1,15 @@
 from typing import List, Optional
 from datetime import date
-
 from .base import BaseResponse
-from .company import CompanyResponse
+
+
+class CompanyResponse(BaseResponse):
+    company_id: int
+    name: str
+    website: Optional[str] = None
+    address: Optional[str] = None
+    city_id: Optional[int] = None
+    logo_url: Optional[str] = None
 
 
 class JobSkillResponse(BaseResponse):
@@ -44,7 +51,7 @@ class JobResponse(BaseResponse):
 
 class JobDetailsResponse(BaseResponse):
     job: JobResponse
-    # company: CompanyResponse
+    company: CompanyResponse
     skills: Optional[List[JobSkillResponse]] = None
     certificates: Optional[List[JobCertificateResponse]] = None
     educations: Optional[List[JobEducationResponse]] = None
