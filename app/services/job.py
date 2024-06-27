@@ -92,14 +92,26 @@ class JobService(BaseService):
             working_arrangement,
             career_id,
             position_id,
-            current_user,
         )
         order_by = [desc(Job.status), desc(Job.max_salary), desc(Job.created_at)]
         pagination = {"page": page, "size": size}
+
+        # only active jobs are shown to users other than recruiters
+        if current_user is not None and current_user.role == UserRole.RECRUITER:
+            company = get_record_or_404(
+                repository=self.company_repository,
+                condition=Company.staff_id == current_user.user_id,
+            )
+            company_id = company.company_id
+            condition = and_(condition, Job.company_id == company_id)
+        else:
+            condition = and_(condition, Job.status > 0)
+
         jobs = self.job_repository.get_all(
             pagination=pagination, condition=condition, order_by=order_by
         )
         total = self.job_repository.count(condition=condition)
+
         # return jobs, total
         data = Page(total=total, items=jobs)
         return SuccessResponse(message=SuccessMessage.SUCCESS, data=data)
@@ -167,7 +179,6 @@ class JobService(BaseService):
         working_arrangement,
         career_id,
         position_id,
-        current_user,
     ):
         conditions = []
 
@@ -187,15 +198,7 @@ class JobService(BaseService):
             conditions.append(Job.position_id == position_id)
         if company_id:
             conditions.append(Job.company_id == company_id)
-        if current_user is not None and current_user.role == UserRole.RECRUITER:
-            company = get_record_or_404(
-                repository=self.company_repository,
-                condition=Company.staff_id == current_user.user_id,
-            )
-            company_id = company.company_id
-            conditions.append(Job.company_id == company_id)
 
         # Use the utility function to combine conditions
         condition = combine_conditions(conditions)
-        print(condition)
         return condition
