@@ -1,9 +1,9 @@
 from fastapi import BackgroundTasks
 
 from app.config.settings import get_settings
-from app.models.user import User
+from app.models import *
 from app.config.email import send_email
-from app.utils.email_context import USER_VERIFY_ACCOUNT, FORGOT_PASSWORD
+from app.utils import *
 
 settings = get_settings()
 

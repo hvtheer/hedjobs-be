@@ -12,17 +12,13 @@ from app.config.security import (
     hash_password,
 )
 from app.models import *
-from app.services.base import BaseService
-from app.repositories.recruiter import RecruiterRepository
+from app.services import *
+from app.repositories import *
 from .email import EmailService
 from app.utils import *
-from app.utils.string import unique_string
-from app.utils.email_context import USER_VERIFY_ACCOUNT
-from app.utils.exception import CustomException
-from app.repositories import UserRepository, StudentRepository, UserTokenRepository
-from app.config.constants import ErrorMessage, UserRole, SuccessMessage
+from app.config.constants import *
 from app.config.settings import get_settings
-from app.responses.base import SuccessResponse, InfoResponse
+from app.responses import *
 
 settings = get_settings()
 
@@ -33,7 +29,7 @@ class AuthService(BaseService):
 
     async def register(self, new_user, background):
         try:
-            ensure_unique_record(
+            self._ensure_unique_record(
                 repository=self.user_repository,
                 condition=User.email == new_user["email"],
             )
@@ -56,7 +52,7 @@ class AuthService(BaseService):
 
     async def activate_user_account(self, data, background_tasks):
         try:
-            user = get_record_or_404(User.email == data["email"])
+            user = self._get_record_or_404(User.email == data["email"])
             self._validate_token(user, data["token"], USER_VERIFY_ACCOUNT)
             self._update_user_status(
                 user, is_active=True, verified_at=datetime.utcnow()
@@ -77,7 +73,7 @@ class AuthService(BaseService):
 
     async def get_login_token(self, data):
         try:
-            user = get_record_or_404(
+            user = self._get_record_or_404(
                 repository=self.user_repository, condition=User.email == data.username
             )
             self._validate_credentials(user, data.password)

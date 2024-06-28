@@ -2,14 +2,13 @@ from fastapi import APIRouter, Depends, status, Query
 from sqlalchemy.orm import Session
 from typing import Optional, List
 
-from app.responses.base import SuccessResponse, Page
-from app.responses.job import JobResponse, JobDetailsResponse
-from app.schemas.job import JobDetailsRequest
-from app.services.job import JobService
+from app.responses import *
+from app.schemas import *
+from app.services import JobService
 from app.config.security import require_role, get_current_user
 from app.config.constants import UserRole
 from app.config.database import get_session
-from app.models import User, Job, JobSkill
+from app.models import *
 
 router = APIRouter(
     prefix="/jobs",
@@ -41,7 +40,7 @@ async def create_job(
 @router.put(
     "/{job_id}",
     status_code=status.HTTP_201_CREATED,
-    # response_model=SuccessResponse[JobDetailsResponse],
+    response_model=SuccessResponse[JobDetailsResponse],
 )
 async def update_job(
     job_id: int,
@@ -63,7 +62,7 @@ async def update_job(
 @router.get(
     "/",
     status_code=status.HTTP_200_OK,
-    response_model=SuccessResponse[Page[JobResponse]],
+    response_model=SuccessResponse[Page[JobPublicResponse]],
 )
 async def get_jobs(
     session: Session = Depends(get_session),

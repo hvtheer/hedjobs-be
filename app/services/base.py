@@ -11,18 +11,11 @@ from app.config.security import (
     verify_password,
     hash_password,
 )
-from app.models import User, Student, UserToken
-from app.models.recruiter import Recruiter
-from app.repositories.company import CompanyRepository
 from .email import EmailService
-from app.utils.string import unique_string
-from app.utils.email_context import USER_VERIFY_ACCOUNT
-from app.utils.exception import CustomException
 from app.utils import *
 from app.repositories import *
-from app.config.constants import ErrorMessage, UserRole, SuccessMessage
+from app.config.constants import *
 from app.config.settings import get_settings
-from app.responses.base import SuccessResponse, InfoResponse
 
 settings = get_settings()
 
@@ -59,3 +52,76 @@ class BaseService:
         self.create_user_role_entity(
             user, UserRole.RECRUITER, self.recruiter_repository
         )
+
+    def create_user_role_entity(self, user, role, repository):
+        if user.role == role:
+            new_entity = {
+                f"{role.lower()}_id": user.user_id,
+                "name": user.name,
+                "email": user.email,
+                "phone_number": user.phone_number,
+            }
+            repository.create(new_entity)
+
+    def _get_record_or_404(
+        self,
+        repository,
+        condition,
+        error_message=ErrorMessage.NOT_FOUND,
+        status_code=status.HTTP_404_NOT_FOUND,
+    ):
+        record = repository.get_first_by_condition(condition)
+        if not record:
+            raise CustomException(status_code=status_code, detail=error_message)
+        return record
+
+    def _ensure_unique_record(
+        self,
+        repository,
+        condition,
+        error_message=ErrorMessage.ALREADY_EXISTS,
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+    ):
+        if repository.get_first_by_condition(condition):
+            raise CustomException(status_code=status_code, detail=error_message)
+
+    def _create_related_entities(
+        self, entity_id, entity_id_attr, related_data_to_create, related_repository
+    ):
+        entities = []
+        for data in related_data_to_create:
+            data[entity_id_attr] = entity_id
+            related_entity = related_repository.create(data)
+            entities.append(related_entity)
+        return entities
+
+    def _delete_related_entities(
+        self, related_data_to_delete, related_repository, related_model, related_id_attr
+    ):
+        for data in related_data_to_delete:
+            condition = getattr(related_model, related_id_attr) == getattr(
+                data, related_id_attr
+            )
+            related_repository.delete_by_condition(condition)
+
+    def _update_related_entities(
+        self,
+        entity_id,
+        entity_id_attr,
+        related_data,
+        related_repository,
+        related_model,
+        related_id_attr,
+    ):
+        # Get existing related data by entity id attribute like job_id
+        existing_related_data = related_repository.get_all(
+            condition=getattr(related_model, entity_id_attr) == entity_id
+        )
+        self._delete_related_entities(
+            existing_related_data, related_repository, related_model, related_id_attr
+        )
+        created_data = self._create_related_entities(
+            entity_id, entity_id_attr, related_data, related_repository
+        )
+
+        return created_data

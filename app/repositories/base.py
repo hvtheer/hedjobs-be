@@ -61,21 +61,8 @@ class BaseRepository(Generic[T]):
     def get_all(self, pagination: Dict[str, Any] = None, condition=None, order_by=None):
         try:
             query = self._filter_not_deleted()
-            if condition is not None:
-                query = query.filter(condition)
-            if order_by is not None:
-                # Check if order_by is a list of columns and unpack it
-                if isinstance(order_by, list):
-                    query = query.order_by(*order_by)
-                else:
-                    # Single column, maintain backward compatibility
-                    query = query.order_by(order_by)
-            if pagination:
-                if "page" in pagination and "size" in pagination:
-                    page = pagination["page"]
-                    size = pagination["size"]
-                    query = query.offset((page - 1) * size).limit(size)
-            return query.all()
+            query = self._handle_get_all(query, pagination, condition, order_by)
+            return query
         except SQLAlchemyError as e:
             logger.error(
                 f"An error occurred in get_all for model {self.model.__name__}: {e}"
@@ -151,3 +138,20 @@ class BaseRepository(Generic[T]):
                 f"An error occurred in count for model {self.model.__name__}: {e}"
             )
             raise e
+
+    def _handle_get_all(self, query, pagination, condition, order_by):
+        if condition is not None:
+            query = query.filter(condition)
+        if order_by is not None:
+            # Check if order_by is a list of columns and unpack it
+            if isinstance(order_by, list):
+                query = query.order_by(*order_by)
+            else:
+                # Single column, maintain backward compatibility
+                query = query.order_by(order_by)
+        if pagination:
+            if "page" in pagination and "size" in pagination:
+                page = pagination["page"]
+                size = pagination["size"]
+                query = query.offset((page - 1) * size).limit(size)
+        return query.all()
