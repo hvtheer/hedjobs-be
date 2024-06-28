@@ -18,3 +18,12 @@ class CompanyResponse(BaseResponse):
     contact_phone: Optional[str] = None
     company_size: Optional[int] = None
     description: Optional[str] = None
+
+
+class CompanyPublicResponse(BaseResponse):
+    company_id: int
+    name: str
+    website: Optional[str] = None
+    address: Optional[str] = None
+    city_id: Optional[int] = None
+    logo_url: Optional[str] = None

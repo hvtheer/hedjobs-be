@@ -4,24 +4,27 @@ from sqlalchemy.orm import Session
 from fastapi import status
 from typing import Dict, Any
 
-import app.config.security
-from app.models import User, Student
-from app.services import EmailService
-from app.utils.string import unique_string
-from app.utils.email_context import USER_VERIFY_ACCOUNT
-from app.utils.exception import CustomException
-from app.repositories import UserRepository, StudentRepository, UserTokenRepository
-from app.config.constants import ErrorMessage, UserRole
+from app.models import *
+from app.services import *
+from app.utils import *
+from app.repositories import *
+from app.config.constants import *
 from app.config.settings import get_settings
-from app.services.base import BaseService
+from app.responses import *
 
 settings = get_settings()
 
 
 class UserService(BaseService):
     def __init__(self, session: Session):
-        self.user_repository = UserRepository(session)
-        self.student_repository = StudentRepository(session)
+        super().__init__(session)
 
     async def get_all_users(self):
-        return self.user_repository.get_all(order_by=User.name)
+        users = self.user_repository.get_all(order_by=User.name)
+        total_users = len(users)
+        users = {"items": users, "total": total_users}
+        return SuccessResponse(message=SuccessMessage.SUCCESS, data=users)
+
+    # async def get_me(self, user_id):
+    #     user = self.user_repository.get_by_id(user_id)
+    #     return SuccessResponse(message=SuccessMessage.SUCCESS, data=user)

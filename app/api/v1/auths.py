@@ -3,9 +3,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from app.config.database import get_session
-from app.responses.auth import UserResponse, LoginResponse
-from app.responses.base import SuccessResponse, InfoResponse
-from app.schemas.auth import RegisterUserRequest, VerifyUserRequest
+from app.responses import *
+from app.schemas import *
 from app.services import AuthService
 from app.config.constants import SuccessMessage
 from app.config.security import get_current_user

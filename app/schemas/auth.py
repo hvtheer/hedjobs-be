@@ -2,7 +2,7 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr
 
 
-class UserBase(BaseModel):
+class UserRequest(BaseModel):
     name: str
     email: EmailStr
     phone_number: str
@@ -10,7 +10,7 @@ class UserBase(BaseModel):
     role: str
 
 
-class RegisterUserRequest(UserBase):
+class RegisterUserRequest(UserRequest):
     password: str
 
 

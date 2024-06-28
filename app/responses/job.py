@@ -1,15 +1,7 @@
 from typing import List, Optional
 from datetime import date
 from .base import BaseResponse
-
-
-class CompanyResponse(BaseResponse):
-    company_id: int
-    name: str
-    website: Optional[str] = None
-    address: Optional[str] = None
-    city_id: Optional[int] = None
-    logo_url: Optional[str] = None
+from .company import CompanyPublicResponse
 
 
 class JobSkillResponse(BaseResponse):
@@ -49,9 +41,26 @@ class JobResponse(BaseResponse):
     quantity: Optional[int] = None
 
 
+class JobPublicResponse(BaseResponse):
+    job_id: int
+    title: str
+    company: CompanyPublicResponse
+    employment_type: int
+    salary_type: Optional[int] = None
+    min_salary: Optional[int] = None
+    max_salary: Optional[int] = None
+    currency_cd: Optional[str] = None
+    city_id: Optional[int] = None
+    posted_date: Optional[date] = None
+    closed_date: Optional[date] = None
+    status: int
+    career_id: Optional[int] = None
+    position_id: Optional[int] = None
+
+
 class JobDetailsResponse(BaseResponse):
     job: JobResponse
-    company: CompanyResponse
+    company: CompanyPublicResponse
     skills: Optional[List[JobSkillResponse]] = None
     certificates: Optional[List[JobCertificateResponse]] = None
     educations: Optional[List[JobEducationResponse]] = None

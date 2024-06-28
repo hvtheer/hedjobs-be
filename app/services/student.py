@@ -1,13 +1,11 @@
 from fastapi import status
 from sqlalchemy.orm import Session
 
-from app.services.base import BaseService
-from app.responses.base import Page, SuccessResponse
-from app.responses.student import StudentDetailsResponse
+from app.services import *
+from app.responses import *
 from app.models import *
-from app.config.constants import ErrorMessage, SuccessMessage, UserRole
-from app.utils.exception import CustomException
 from app.utils import *
+from app.config.constants import *
 
 
 class StudentService(BaseService):
@@ -15,7 +13,7 @@ class StudentService(BaseService):
         super().__init__(session)
 
     async def get_student_by_id(self, student_id):
-        student = get_record_or_404(
+        student = self._get_record_or_404(
             repository=self.student_repository,
             condition=Student.student_id == student_id,
         )
@@ -31,14 +29,17 @@ class StudentService(BaseService):
         careers = self.student_career_repository.get_all(
             condition=StudentCareer.student_id == student_id
         )
-        data = StudentDetailsResponse(
+        student_details = StudentDetailsResponse(
             student=student,
             skills=skills,
             certificates=certificates,
             educations=educations,
             careers=careers,
         )
-        return SuccessResponse(message=SuccessMessage.SUCCESS, data=data)
+        return SuccessResponse(message=SuccessMessage.SUCCESS, data=student_details)
+
+    async def get_self_student(self, student_id):
+        return await self.get_student_by_id(student_id)
 
     async def update_student_details(
         self,
@@ -55,13 +56,13 @@ class StudentService(BaseService):
                 status_code=status.HTTP_403_FORBIDDEN,
                 message=ErrorMessage.FORBIDDEN,
             )
-        student = get_record_or_404(
+        student = self._get_record_or_404(
             repository=self.student_repository,
             condition=Student.student_id == student_id,
         )
         student_data["student_id"] = student_id
         student = self.student_repository.update_by_id(student_id, student_data)
-        skills = update_related_entities(
+        skills = self._update_related_entities(
             student_id,
             "student_id",
             skills_data,
@@ -69,7 +70,7 @@ class StudentService(BaseService):
             StudentSkill,
             "skill_id",
         )
-        certificates = update_related_entities(
+        certificates = self._update_related_entities(
             student_id,
             "student_id",
             certificates_data,
@@ -77,7 +78,7 @@ class StudentService(BaseService):
             StudentCertificate,
             "certificate_id",
         )
-        educations = update_related_entities(
+        educations = self._update_related_entities(
             student_id,
             "student_id",
             educations_data,
@@ -85,7 +86,7 @@ class StudentService(BaseService):
             StudentEducation,
             "education_id",
         )
-        careers = update_related_entities(
+        careers = self._update_related_entities(
             student_id,
             "student_id",
             careers_data,
@@ -93,18 +94,11 @@ class StudentService(BaseService):
             StudentCareer,
             "career_id",
         )
-        # return {
-        #     "student": student,
-        #     "skills": skills,
-        #     "certificates": certificates,
-        #     "educations": educations,
-        #     "careers": careers,
-        # }
-        return StudentDetailsResponse(
+        student_details = StudentDetailsResponse(
             student=student,
             skills=skills,
             certificates=certificates,
             educations=educations,
             careers=careers,
         )
-        # return SuccessResponse(message=SuccessMessage.UPDATED, data=student)
+        return SuccessResponse(message=SuccessMessage.UPDATED, data=student_details)
