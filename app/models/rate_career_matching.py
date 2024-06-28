@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Integer, Float
+from sqlalchemy import Column, Integer, Float, UniqueConstraint
 from .base import Base
 
 
-class CareerMatchingRate(Base):
+class RateCareerMatching(Base):
     __tablename__ = "rate_career_matching"
 
     auto_id = Column(Integer, primary_key=True, index=True)

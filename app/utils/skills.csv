@@ -1,0 +1,101 @@
+index,skill_name
+1,HTML
+2,CSS
+3,JavaScript
+4,TypeScript
+5,React
+6,Angular
+7,Vue.js
+8,Node.js
+9,Express.js
+10,Django
+11,Flask
+12,Ruby on Rails
+13,ASP.NET
+14,Spring Framework
+15,Laravel
+16,PHP
+17,Python
+18,Java
+19,C#
+20,C++
+21,Ruby
+22,Swift
+23,Kotlin
+24,Go
+25,Rust
+26,Scala
+27,SQL
+28,MySQL
+29,PostgreSQL
+30,MongoDB
+31,Redis
+32,Oracle Database
+33,Microsoft SQL Server
+34,SQLite
+35,GraphQL
+36,RESTful APIs
+37,Docker
+38,Kubernetes
+39,AWS
+40,Azure
+41,Google Cloud Platform
+42,Heroku
+43,Git
+44,GitHub
+45,GitLab
+46,Bitbucket
+47,Jenkins
+48,Travis CI
+49,CircleCI
+50,Ansible
+51,Terraform
+52,Puppet
+53,Chef
+54,Linux
+55,Unix
+56,Windows Server
+57,Bash Scripting
+58,PowerShell
+59,Agile Methodologies
+60,Scrum
+61,Kanban
+62,JIRA
+63,Confluence
+64,Trello
+65,Machine Learning
+66,Deep Learning
+67,TensorFlow
+68,PyTorch
+69,Scikit-learn
+70,Natural Language Processing
+71,Computer Vision
+72,Data Analysis
+73,Data Visualization
+74,Tableau
+75,Power BI
+76,D3.js
+77,Elasticsearch
+78,Logstash
+79,Kibana
+80,Apache Kafka
+81,Apache Spark
+82,Hadoop
+83,Big Data
+84,Blockchain
+85,Cybersecurity
+86,Network Security
+87,Penetration Testing
+88,Cryptography
+89,Ethical Hacking
+90,Firewalls
+91,Intrusion Detection Systems
+92,VPN
+93,IoT (Internet of Things)
+94,Embedded Systems
+95,FPGA Programming
+96,VHDL
+97,Verilog
+98,Arduino
+99,Raspberry Pi
+100,3D Printing

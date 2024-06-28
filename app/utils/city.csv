@@ -1,0 +1,112 @@
+index,city_name
+1,Hanoi
+2,Ho Chi Minh City
+3,Hai Phong
+4,Da Nang
+5,Can Tho
+6,An Giang
+7,Ba Ria-Vung Tau
+8,Bac Giang
+9,Bac Kan
+10,Bac Lieu
+11,Bac Ninh
+12,Ben Tre
+13,Binh Dinh
+14,Binh Duong
+15,Binh Phuoc
+16,Binh Thuan
+17,Ca Mau
+18,Cao Bang
+19,Dak Lak
+20,Dak Nong
+21,Dien Bien
+22,Dong Nai
+23,Dong Thap
+24,Gia Lai
+25,Ha Giang
+26,Ha Nam
+27,Ha Tinh
+28,Hai Duong
+29,Hau Giang
+30,Hoa Binh
+31,Hung Yen
+32,Khanh Hoa
+33,Kien Giang
+34,Kon Tum
+35,Lai Chau
+36,Lam Dong
+37,Lang Son
+38,Lao Cai
+39,Long An
+40,Nam Dinh
+41,Nghe An
+42,Ninh Binh
+43,Ninh Thuan
+44,Phu Tho
+45,Phu Yen
+46,Quang Binh
+47,Quang Nam
+48,Quang Ngai
+49,Quang Ninh
+50,Quang Tri
+51,Soc Trang
+52,Son La
+53,Tay Ninh
+54,Thai Binh
+55,Thai Nguyen
+56,Thanh Hoa
+57,Thua Thien Hue
+58,Tien Giang
+59,Tra Vinh
+60,Tuyen Quang
+61,Vinh Long
+62,Vinh Phuc
+63,Yen Bai
+index,city_name
+64,Hokkaido
+65,Aomori
+66,Iwate
+67,Miyagi
+68,Akita
+69,Yamagata
+70,Fukushima
+71,Ibaraki
+72,Tochigi
+73,Gunma
+74,Saitama
+75,Chiba
+76,Tokyo
+77,Kanagawa
+78,Niigata
+79,Toyama
+80,Ishikawa
+81,Fukui
+82,Yamanashi
+83,Nagano
+84,Gifu
+85,Shizuoka
+86,Aichi
+87,Mie
+88,Shiga
+89,Kyoto
+90,Osaka
+91,Hyogo
+92,Nara
+93,Wakayama
+94,Tottori
+95,Shimane
+96,Okayama
+97,Hiroshima
+98,Yamaguchi
+99,Tokushima
+100,Kagawa
+101,Ehime
+102,Kochi
+103,Fukuoka
+104,Saga
+105,Nagasaki
+106,Kumamoto
+107,Oita
+108,Miyazaki
+109,Kagoshima
+110,Okinawa

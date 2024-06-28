@@ -1,0 +1,101 @@
+index,certificate_name
+1,JLPT N1 (Japanese Language Proficiency Test Level 1)
+2,JLPT N2 (Japanese Language Proficiency Test Level 2)
+3,JLPT N3 (Japanese Language Proficiency Test Level 3)
+4,JLPT N4 (Japanese Language Proficiency Test Level 4)
+5,JLPT N5 (Japanese Language Proficiency Test Level 5)
+6,BJT Business Japanese Proficiency Test
+7,J.TEST (Test of Practical Japanese)
+8,NAT-TEST (Japanese Language Proficiency Test)
+9,TOEIC (Test of English for International Communication)
+10,TOEFL iBT (Test of English as a Foreign Language - Internet-Based Test)
+11,IELTS (International English Language Testing System)
+12,Cambridge English: Proficiency (CPE)
+13,Cambridge English: Advanced (CAE)
+14,Cambridge English: First (FCE)
+15,PTE Academic (Pearson Test of English Academic)
+16,BULATS (Business Language Testing Service)
+17,AWS Certified Solutions Architect - Associate
+18,AWS Certified Developer - Associate
+19,AWS Certified SysOps Administrator - Associate
+20,AWS Certified Solutions Architect - Professional
+21,AWS Certified DevOps Engineer - Professional
+22,Microsoft Certified: Azure Fundamentals
+23,Microsoft Certified: Azure Administrator Associate
+24,Microsoft Certified: Azure Developer Associate
+25,Microsoft Certified: Azure Solutions Architect Expert
+26,Google Cloud Certified - Professional Cloud Architect
+27,Google Cloud Certified - Associate Cloud Engineer
+28,Google Cloud Certified - Professional Data Engineer
+29,Certified Information Systems Security Professional (CISSP)
+30,Certified Ethical Hacker (CEH)
+31,CompTIA Security+
+32,CompTIA Network+
+33,CompTIA A+
+34,Cisco Certified Network Associate (CCNA)
+35,Cisco Certified Network Professional (CCNP)
+36,Certified Information Security Manager (CISM)
+37,ITIL Foundation
+38,Project Management Professional (PMP)
+39,Certified Scrum Master (CSM)
+40,Professional Scrum Master I (PSM I)
+41,Oracle Certified Associate (OCA)
+42,Oracle Certified Professional (OCP)
+43,Microsoft Certified: Azure AI Engineer Associate
+44,Microsoft Certified: Azure Data Scientist Associate
+45,Certified Kubernetes Administrator (CKA)
+46,Certified Kubernetes Application Developer (CKAD)
+47,Red Hat Certified System Administrator (RHCSA)
+48,Red Hat Certified Engineer (RHCE)
+49,Zend Certified PHP Engineer
+50,Certified Information Systems Auditor (CISA)
+51,Certified in Risk and Information Systems Control (CRISC)
+52,Certified Information Security Auditor (CISA)
+53,GIAC Security Essentials (GSEC)
+54,GIAC Certified Incident Handler (GCIH)
+55,Offensive Security Certified Professional (OSCP)
+56,Certified Cloud Security Professional (CCSP)
+57,VMware Certified Professional - Data Center Virtualization (VCP-DCV)
+58,Citrix Certified Associate - Virtualization (CCA-V)
+59,Juniper Networks Certified Associate (JNCIA)
+60,F5 Certified BIG-IP Administrator
+61,Salesforce Certified Administrator
+62,Salesforce Certified Platform Developer I
+63,Certified ScrumMaster (CSM)
+64,PMI Agile Certified Practitioner (PMI-ACP)
+65,PRINCE2 Foundation
+66,PRINCE2 Practitioner
+67,IBM Certified Database Administrator - DB2
+68,MongoDB Certified DBA Associate
+69,Certified Novell Administrator (CNA)
+70,Certified Novell Engineer (CNE)
+71,Certified Blockchain Developer
+72,Certified Bitcoin Professional (CBP)
+73,Certified Blockchain Expert (CBE)
+74,Certified Information Privacy Professional (CIPP)
+75,Certified Data Privacy Solutions Engineer (CDPSE)
+76,Certified Analytics Professional (CAP)
+77,SAS Certified Base Programmer
+78,Cloudera Certified Associate (CCA) Administrator
+79,Hortonworks Certified Apache Hadoop Administrator
+80,Tableau Desktop Certified Professional
+81,Qlik Sense Business Analyst Certification
+82,Microsoft Office Specialist (MOS)
+83,Adobe Certified Expert (ACE)
+84,Autodesk Certified Professional
+85,ITIL 4 Foundation
+86,COBIT 5 Foundation
+87,Six Sigma Green Belt
+88,Six Sigma Black Belt
+89,Lean Six Sigma Green Belt
+90,Lean Six Sigma Black Belt
+91,Certified Business Analysis Professional (CBAP)
+92,Certified Software Development Professional (CSDP)
+93,Certified Software Quality Analyst (CSQA)
+94,ISTQB Certified Tester Foundation Level
+95,Certified Penetration Testing Engineer (CPTE)
+96,Certified Secure Software Lifecycle Professional (CSSLP)
+97,Certified Cloud Security Professional (CCSP)
+98,Certified Wireless Network Administrator (CWNA)
+99,Certified Information Systems Security Professional (CISSP)
+100,Certified Ethical Hacker (CEH)

@@ -6,3 +6,4 @@ class MPosition(Base):
     __tablename__ = "m_position"
     position_id = Column(Integer, primary_key=True, autoincrement=True)
     position_name = Column(String(150), nullable=False, default="")
+    position_level = Column(Integer, nullable=False)

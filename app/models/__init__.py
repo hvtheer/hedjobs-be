@@ -15,8 +15,10 @@ from .job_education import JobEducation
 from .job_certificate import JobCertificate
 
 from .m_education import MEducation
-from .m_career import MCareer
 from .m_position import MPosition
-from .m_skill import MSkill
-from .m_certificate import MCertificate
-from .m_city import MCity
+from .m_stage import MStage
+
+from .rate_career_matching import RateCareerMatching
+from .rate_skill_matching import RateSkillMatching
+from .rate_city_matching import RateCityMatching
+from .rate_certificate_matching import RateCertificateMatching
