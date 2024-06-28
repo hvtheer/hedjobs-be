@@ -12,7 +12,7 @@ from app.config.security import (
     hash_password,
 )
 from app.models import *
-from app.services import *
+from .base import BaseService
 from app.repositories import *
 from .email import EmailService
 from app.utils import *

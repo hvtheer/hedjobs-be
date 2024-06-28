@@ -1,7 +1,7 @@
 from fastapi import status
 from sqlalchemy.orm import Session
 
-from app.services import *
+from .base import BaseService
 from app.responses import *
 from app.models import *
 from app.utils import *

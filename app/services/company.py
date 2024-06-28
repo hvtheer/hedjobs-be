@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import asc, desc
 
 from app.models import Company
-from app.services import *
+from .base import BaseService
 from app.responses import *
 from app.config.constants import *
 from app.utils import *

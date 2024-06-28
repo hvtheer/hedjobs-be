@@ -1,13 +1,11 @@
 from fastapi import status
 from sqlalchemy.orm import Session
+
+from .base import BaseService
+from app.responses import *
 from app.models import *
-from app.services.base import BaseService
-from app.responses.base import Page, SuccessResponse
-from app.responses.job import JobDetailsResponse
-from app.config.constants import ErrorMessage, SuccessMessage, UserRole
-from app.utils.exception import CustomException
-from sqlalchemy import desc
 from app.utils import *
+from app.config.constants import *
 
 
 class ApplicationService(BaseService):

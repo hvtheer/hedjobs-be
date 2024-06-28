@@ -5,7 +5,7 @@ from fastapi import status
 from typing import Dict, Any
 
 from app.models import *
-from app.services import *
+from .base import BaseService
 from app.utils import *
 from app.repositories import *
 from app.config.constants import *
