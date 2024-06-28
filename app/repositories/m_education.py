@@ -1,13 +1,13 @@
 from sqlalchemy.orm import Session
 
-from app.models import MCareer
+from app.models import MEducation
 from .base import BaseRepository
 
 
-class MCareerRepository(BaseRepository[MCareer]):
+class MEducationRepository(BaseRepository[MEducation]):
     def __init__(self, session: Session):
         super().__init__(
             session=session,
-            model=MCareer,
-            column_id=MCareer.career_id,
+            model=MEducation,
+            column_id=MEducation.education_id,
         )
