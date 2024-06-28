@@ -5,16 +5,13 @@ from pydantic import EmailStr
 from .base import BaseResponse
 
 
-class UserBase(BaseResponse):
+class UserResponse(BaseResponse):
+    user_id: int
     name: str
     email: EmailStr
     phone_number: Optional[str]
     is_active: bool
     role: str
-
-
-class UserResponse(UserBase):
-    user_id: int
     created_at: datetime
 
 

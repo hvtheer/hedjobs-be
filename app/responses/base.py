@@ -20,6 +20,6 @@ class ErrorResponse(BaseModel):
     message: str
 
 
-class Page(BaseModel, Generic[M]):
+class Page(BaseResponse, Generic[M]):
     items: List[Optional[M]]
     total: int
