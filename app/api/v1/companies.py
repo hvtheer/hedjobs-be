@@ -4,7 +4,7 @@ from typing import Optional
 
 from app.config.database import get_session
 from app.responses.base import Page, SuccessResponse
-from app.responses.company import CompanyResponse
+from app.responses.company import CompanyResponse, CompanyPublicResponse
 from app.config.security import require_role
 from app.schemas.company import CompanyRequest
 from app.services.company import CompanyService
@@ -34,7 +34,7 @@ async def create_company(
 @router.get(
     "/",
     status_code=status.HTTP_200_OK,
-    response_model=SuccessResponse[Page[CompanyResponse]],
+    response_model=SuccessResponse[Page[CompanyPublicResponse]],
 )
 async def get_companies(
     session: Session = Depends(get_session),
