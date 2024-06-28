@@ -40,10 +40,9 @@ class BaseService:
         self.job_education_repository = JobEducationRepository(session)
         self.job_certificate_repository = JobCertificateRepository(session)
 
-        self.m_career_repository = MCareerRepository(session)
+        self.m_education_repository = MEducationRepository(session)
         self.m_position_repository = MPositionRepository(session)
-        self.m_skill_repository = MSkillRepository(session)
-        self.m_city_repository = MCityRepository(session)
+        self.m_stage_repository = MStageRepository(session)
 
     def _create_student(self, user):
         self.create_user_role_entity(user, UserRole.STUDENT, self.student_repository)

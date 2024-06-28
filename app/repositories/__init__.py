@@ -15,7 +15,6 @@ from .job_skill import JobSkillRepository
 from .job_education import JobEducationRepository
 from .job_certificate import JobCertificateRepository
 
-from .m_career import MCareerRepository
-from .m_city import MCityRepository
+from .m_education import MEducationRepository
+from .m_stage import MStageRepository
 from .m_position import MPositionRepository
-from .m_skill import MSkillRepository
