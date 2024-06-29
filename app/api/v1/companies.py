@@ -24,10 +24,10 @@ router = APIRouter(
 async def create_company(
     data: CompanyRequest,
     session: Session = Depends(get_session),
-    current_user=Depends(require_role(UserRole.RECRUITER)),
+    recruiter=Depends(require_role(UserRole.RECRUITER)),
 ):
     company_service = CompanyService(session)
-    return await company_service.create_company(data.dict(), current_user.user_id)
+    return await company_service.create_company(data.dict(), recruiter.user_id)
 
 
 @router.get(
@@ -52,10 +52,10 @@ async def get_companies(
 )
 async def get_own_company(
     session: Session = Depends(get_session),
-    user=Depends(require_role(UserRole.RECRUITER)),
+    recruiter=Depends(require_role(UserRole.RECRUITER)),
 ):
     company_service = CompanyService(session)
-    return await company_service.get_own_company(user.user_id)
+    return await company_service.get_own_company(recruiter.user_id)
 
 
 @router.get(

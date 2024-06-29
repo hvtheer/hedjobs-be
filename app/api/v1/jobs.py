@@ -25,11 +25,11 @@ router = APIRouter(
 async def create_job(
     data: JobDetailsRequest,
     session: Session = Depends(get_session),
-    current_user=Depends(require_role(UserRole.RECRUITER)),
+    recruiter=Depends(require_role(UserRole.RECRUITER)),
 ):
     job_service = JobService(session)
     return await job_service.create_job_details(
-        staff_id=current_user.user_id,
+        recruiter_id=recruiter.user_id,
         job_data=data.job.dict(),
         skills_data=[skill.dict() for skill in data.skills],
         certificates_data=[certificate.dict() for certificate in data.certificates],
@@ -46,11 +46,11 @@ async def update_job(
     job_id: int,
     data: JobDetailsRequest,
     session: Session = Depends(get_session),
-    current_user=Depends(require_role(UserRole.RECRUITER)),
+    recruiter=Depends(require_role(UserRole.RECRUITER)),
 ):
     job_service = JobService(session)
     return await job_service.update_job_details(
-        staff_id=current_user.user_id,
+        recruiter_id=recruiter.user_id,
         job_id=job_id,
         job_data=data.job.dict(),
         skills_data=[skill.dict() for skill in data.skills],
