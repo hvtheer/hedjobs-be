@@ -29,7 +29,7 @@ async def register_user(
     return await auth_service.register(data.dict(), background_tasks)
 
 
-@router.post("/verify", status_code=status.HTTP_200_OK)
+@router.put("/verify", status_code=status.HTTP_204_NO_CONTENT)
 async def verify_user_account(
     data: VerifyUserRequest,
     background_tasks: BackgroundTasks,

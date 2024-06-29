@@ -1,5 +1,5 @@
 import logging
-from sqlalchemy import Index, inspect, Column, Boolean, asc, desc
+from sqlalchemy import Index, inspect, Column, Boolean, asc, desc, and_
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from typing import List, Optional, Type, TypeVar, Generic, Dict, Any
@@ -136,6 +136,20 @@ class BaseRepository(Generic[T]):
         except SQLAlchemyError as e:
             logger.error(
                 f"An error occurred in count for model {self.model.__name__}: {e}"
+            )
+            raise e
+
+    def get_matching_rates(self, id_field1, id_field2, ids):
+        try:
+            condition = and_(
+                getattr(self.model, id_field1).in_(ids),
+                getattr(self.model, id_field2).in_(ids),
+            )
+            query = self.session.query(self.model).filter(condition)
+            return query.all()
+        except SQLAlchemyError as e:
+            logger.error(
+                f"An error occurred in get_matching_rates for model {self.model.__name__}: {e}"
             )
             raise e
 

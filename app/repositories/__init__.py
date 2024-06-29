@@ -18,3 +18,9 @@ from .job_certificate import JobCertificateRepository
 from .m_education import MEducationRepository
 from .m_stage import MStageRepository
 from .m_position import MPositionRepository
+
+from .rate_career_matching import RateCareerMatchingRepository
+from .rate_skill_matching import RateSkillMatchingRepository
+from .rate_city_matching import RateCityMatchingRepository
+from .rate_certificate_matching import RateCertificateMatchingRepository
+from .application import ApplicationRepository

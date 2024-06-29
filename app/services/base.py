@@ -44,6 +44,15 @@ class BaseService:
         self.m_position_repository = MPositionRepository(session)
         self.m_stage_repository = MStageRepository(session)
 
+        self.rate_career_matching_repository = RateCareerMatchingRepository(session)
+        self.rate_skill_matching_repository = RateSkillMatchingRepository(session)
+        self.rate_city_matching_repository = RateCityMatchingRepository(session)
+        self.rate_certificate_matching_repository = RateCertificateMatchingRepository(
+            session
+        )
+
+        self.application_repository = ApplicationRepository(session)
+
     def _create_student(self, user):
         self.create_user_role_entity(user, UserRole.STUDENT, self.student_repository)
 

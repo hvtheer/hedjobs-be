@@ -22,3 +22,5 @@ from .rate_career_matching import RateCareerMatching
 from .rate_skill_matching import RateSkillMatching
 from .rate_city_matching import RateCityMatching
 from .rate_certificate_matching import RateCertificateMatching
+
+from .application import Application

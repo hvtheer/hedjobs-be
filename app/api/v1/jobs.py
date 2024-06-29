@@ -39,7 +39,7 @@ async def create_job(
 
 @router.put(
     "/{job_id}",
-    status_code=status.HTTP_201_CREATED,
+    status_code=status.HTTP_200_OK,
     response_model=SuccessResponse[JobDetailsResponse],
 )
 async def update_job(

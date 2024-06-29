@@ -41,7 +41,7 @@ async def get_student(student_id: int, session: Session = Depends(get_session)):
 
 @router.put(
     "/{student_id}",
-    status_code=status.HTTP_201_CREATED,
+    status_code=status.HTTP_200_OK,
     response_model=SuccessResponse[StudentDetailsResponse],
 )
 async def update_student(
