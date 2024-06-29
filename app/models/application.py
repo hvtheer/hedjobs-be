@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Integer, Date, Text
+from sqlalchemy import Column, Integer, SmallInteger, Float
 from app.models import Base
 
 
-class JobApplication(Base):
+class Application(Base):
     __tablename__ = "applications"
 
     application_id = Column(Integer, primary_key=True, autoincrement=True)

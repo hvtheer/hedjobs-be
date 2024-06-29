@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, Float
+from sqlalchemy import Column, Integer, String, Date, Float, ForeignKey
 from sqlalchemy.ext.hybrid import hybrid_property
 from app.models import Base
 
@@ -7,7 +7,7 @@ class StudentCareer(Base):
     __tablename__ = "student_careers"
 
     auto_id = Column(Integer, primary_key=True, autoincrement=True)
-    student_id = Column(Integer)
+    student_id = Column(Integer, ForeignKey("students.student_id"))
     career_id = Column(Integer)
     position_id = Column(Integer)
     start_date = Column(Date)

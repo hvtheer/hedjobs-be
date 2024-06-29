@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, UniqueConstraint
+from sqlalchemy import Column, Integer, String, ForeignKey
 from app.models import Base
 
 
@@ -6,7 +6,7 @@ class StudentEducation(Base):
     __tablename__ = "student_educations"
 
     auto_id = Column(Integer, primary_key=True, autoincrement=True)
-    student_id = Column(Integer)
+    student_id = Column(Integer, ForeignKey("students.student_id"))
     education_id = Column(Integer)
     education_organization_name = Column(String(255))
     major_name = Column(String(150))

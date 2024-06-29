@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean
-
+from sqlalchemy.orm import relationship
 from app.models import Base
 
 
@@ -14,6 +14,8 @@ class Recruiter(Base):
     office_phone = Column(String(20))
     office_email = Column(String(128))
     is_deleted = Column(Boolean, default=False, nullable=False)
+
+    company = relationship("Company", back_populates="recruiter")
 
     def get_context_string(self):
         return f"{self.recruiter_id}-{self.email}"
